@@ -196,7 +196,6 @@ void UART_putChar (UART_ChannelType uartChannel, uint8 character)
 	case UART_0:
 		while(!(UART0->S1 & UART_S1_TDRE_MASK)); //checks the Receive data register full flag bit on the UART Status register 1
 				UART0->D = character; //writes the character on the Data register of the UART
-
 		break;
 	case UART_1:
 		while(!(UART1->S1 & UART_S1_RDRF_MASK))

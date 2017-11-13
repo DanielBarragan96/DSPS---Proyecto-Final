@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "PIT.h"
 
+//commands to control the serial port of the first column
 const TeraTermCommand commandsFirstColumn[ANIMATION_SIZE] = {
 		"\033[1;10H","\033[2;10H",
 		"\033[3;10H","\033[4;10H",
@@ -23,7 +24,7 @@ const TeraTermCommand commandsFirstColumn[ANIMATION_SIZE] = {
 		"\033[31;10H","\033[32;10H",
 		"\033[33;10H","\033[34;10H",
 };
-
+//commands to control the serial port of the second column
 const TeraTermCommand commandsSecondColumn[ANIMATION_SIZE] = {
 		"\033[1;15H","\033[2;15H",
 		"\033[3;15H","\033[4;15H",
@@ -43,7 +44,7 @@ const TeraTermCommand commandsSecondColumn[ANIMATION_SIZE] = {
 		"\033[31;15H","\033[32;15H",
 		"\033[33;15H","\033[34;10H",
 };
-
+//commands to control the serial port of the third column
 const TeraTermCommand commandsThirdColumn[ANIMATION_SIZE] = {
 		"\033[1;20H","\033[2;20H",
 		"\033[3;20H","\033[4;20H",
@@ -63,7 +64,7 @@ const TeraTermCommand commandsThirdColumn[ANIMATION_SIZE] = {
 		"\033[31;20H","\033[32;20H",
 		"\033[33;20H","\033[34;20H",
 };
-
+//commands to control the serial port of the fourth column
 const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 		"\033[1;25H","\033[2;25H",
 		"\033[3;25H","\033[4;25H",
@@ -83,95 +84,95 @@ const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 		"\033[31;25H","\033[32;25H",
 		"\033[33;25H","\033[34;25H",
 };
-
+//array of stored tiles
 static Tiles tiles[TILES_SIZE];
+//size of the tiles List
 static uint8 listSize = 0;
+//List flags
 static BooleanType tilesEmpty = TRUE;
 static BooleanType tilesFull = FALSE;
 
 
 BooleanType addTile(Column column){
 	if(TILES_SIZE <= listSize){
-		tilesFull = TRUE;
+		tilesFull = TRUE;//if the list is full set flags
 		tilesEmpty = FALSE;
-		return FALSE;
+		return FALSE;//because the value wasn't saved
 	}
-	tiles[listSize].column = column;
+	tiles[listSize].column = column;//add new tile to the List
 	tiles[listSize++].tileIndex = 0;
 	tilesEmpty = FALSE;
-	return TRUE;
+	return TRUE;//new tile added
 }
 
 BooleanType removeTile(uint8 index){
 	if(listSize <= index)
-		return FALSE;
+		return FALSE;//if out of index
 	while(listSize > index){
-		tiles[index] = tiles[1+index++];
+		tiles[index] = tiles[1+index++];//move all tiles after the "index"to the left
 	}
-	listSize--;
+	listSize--;//decrease List size
 	return TRUE;
 }
 
 BooleanType moveTiles(){
 	uint8 passTiles = 0;
-	while(listSize > passTiles){
+	while(listSize > passTiles){//check all the Tiles of the List
 		if(ANIMATION_SIZE <= (tiles[passTiles].tileIndex + 1)){
-			removeTile(passTiles);
+			removeTile(passTiles);//if the tile index is out of the limits delete the tile
 			writeUI();
 		}
 		else{
-			//initialize the used PIT for controlling the motor PWM
-			PIT_clear(PIT_0);
-			PIT_delay(PIT_0, SYSTEM_CLOCK, 1.0F);// delay until next function value
-
-			switch(tiles[passTiles].column){
+			switch(tiles[passTiles].column){//update each column animation for the tiles
 				case COLUMN_1:{
 					UART_putString(UART_0, commandsFirstColumn[tiles[passTiles].tileIndex++]);
-					UART_putChar(UART_0, ' ');
+					UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
 					UART_putString(UART_0, commandsFirstColumn[tiles[passTiles++].tileIndex]);
-					UART_putChar(UART_0, COLUMN_1);
+					UART_putChar(UART_0, COLUMN_1);//Update tile position
 					break;
 				}
 				case COLUMN_2:{
 					UART_putString(UART_0, commandsSecondColumn[tiles[passTiles].tileIndex++]);
-					UART_putChar(UART_0, ' ');
+					UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
 					UART_putString(UART_0, commandsSecondColumn[tiles[passTiles++].tileIndex]);
-					UART_putChar(UART_0, COLUMN_2);
+					UART_putChar(UART_0, COLUMN_2);//Update tile position
 					break;
 					}
 				case COLUMN_3:{
 					UART_putString(UART_0, commandsThirdColumn[tiles[passTiles].tileIndex++]);
-					UART_putChar(UART_0, ' ');
+					UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
 					UART_putString(UART_0, commandsThirdColumn[tiles[passTiles++].tileIndex]);
-					UART_putChar(UART_0, COLUMN_3);
+					UART_putChar(UART_0, COLUMN_3);//Update tile position
 					break;
 					}
 				case COLUMN_4:{
 					UART_putString(UART_0, commandsFourthColumn[tiles[passTiles].tileIndex++]);
-					UART_putChar(UART_0, ' ');
+					UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
 					UART_putString(UART_0, commandsFourthColumn[tiles[passTiles++].tileIndex]);
-					UART_putChar(UART_0, COLUMN_4);
+					UART_putChar(UART_0, COLUMN_4);//Update tile position
 					break;
 					}
 				default:
-					return FALSE;
+					return FALSE;//if column selected out of order (ERROR)
 			}
 		}
 	}
 
-	UART_putString(UART_0, commandsFourthColumn[ANIMATION_SIZE-1]);
+	UART_putString(UART_0, commandsFourthColumn[ANIMATION_SIZE-1]);//move the cursor for better view
+	PIT_clear(PIT_0);
+	PIT_delay(PIT_0, SYSTEM_CLOCK, 1.0F);// delay until update screen
 
 	return TRUE;
 }
 
-BooleanType writeUI(){
+BooleanType writeUI(){//write the interface
 	UART_putString(UART_0, "\033[34;10H");
-	UART_putChar(UART_0, 219);
+	UART_putChar(UART_0, INTERFACE_TILE);
 	UART_putString(UART_0, "\033[34;15H");
-	UART_putChar(UART_0, 219);
+	UART_putChar(UART_0, INTERFACE_TILE);
 	UART_putString(UART_0, "\033[34;20H");
-	UART_putChar(UART_0, 219);
+	UART_putChar(UART_0, INTERFACE_TILE);
 	UART_putString(UART_0, "\033[34;25H");
-	UART_putChar(UART_0, 219);
+	UART_putChar(UART_0, INTERFACE_TILE);
 	return TRUE;
 }

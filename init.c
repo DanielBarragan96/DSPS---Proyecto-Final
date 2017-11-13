@@ -49,16 +49,28 @@ void initMain(){
 		   modeMCG = what_mcg_mode();
 		   I2C_init(I2C_0, 60000000, 100000);
 
-	   //set initial values for the clock
-	   PCF8563_setSeconds(0x50);
-	   PCF8563_setMinutes(0x59);
-	   PCF8563_setHours(0x21);
-	   PCF8563_setYears(0x98);
-	   PCF8563_setMonths(0x11);
-	   PCF8563_setDays(0x30);
-
 	/**Enables the clock of PortB in order to configures TX and RX of UART peripheral*/
 	SIM->SCGC5 = SIM_SCGC5_PORTB_MASK;
+
+   /**Activating the clock gating of the GPIOs and the PIT*/
+   GPIO_clockGating(GPIO_C);
+   PIT_clockGating();
+
+   GPIO_pinControlRegisterType pinControlRegisterInputInterrupt = GPIO_MUX1|GPIO_PE|INTR_RISING_EDGE;
+
+   /**Configure the characteristics in the GPIOs*/
+	//Buttons
+	GPIO_pinControlRegister(GPIO_C,BIT5,&pinControlRegisterInputInterrupt);
+	GPIO_pinControlRegister(GPIO_C,BIT7,&pinControlRegisterInputInterrupt);
+	GPIO_pinControlRegister(GPIO_C,BIT0,&pinControlRegisterInputInterrupt);
+	GPIO_pinControlRegister(GPIO_C,BIT9,&pinControlRegisterInputInterrupt);
+
+	/**Configure Port Pins as input/output*/
+	//Buttons
+	GPIO_dataDirectionPIN(GPIO_C,GPIO_INPUT,BIT5);
+	GPIO_dataDirectionPIN(GPIO_C,GPIO_INPUT,BIT7);
+	GPIO_dataDirectionPIN(GPIO_C,GPIO_INPUT,BIT0);
+	GPIO_dataDirectionPIN(GPIO_C,GPIO_INPUT,BIT9);
 
 	/**Configures the pin control register of pin16 in PortB as UART RX*/
 	PORTB->PCR[16] = PORT_PCR_MUX(3);
@@ -72,17 +84,12 @@ void initMain(){
 	/**Sets the threshold for interrupts, if the interrupt has higher priority constant that the BASEPRI, the interrupt will not be attended*/
 	NVIC_setBASEPRI_threshold(PRIORITY_5);
 	/**Enables the UART 0 interrupt in the NVIC*/
-	NVIC_enableInterruptAndPriotity(UART0_IRQ, PRIORITY_3);
+	NVIC_enableInterruptAndPriotity(UART0_IRQ, PRIORITY_4);
 
-	PIT_clockGating();
 	/**Enables and sets a particular interrupt and its priority*/
-	NVIC_enableInterruptAndPriotity(PIT_CH0_IRQ, PRIORITY_2);
+	NVIC_enableInterruptAndPriotity(PIT_CH0_IRQ, PRIORITY_4);
 	/**Enables and sets a particular interrupt and its priority*/
-	NVIC_enableInterruptAndPriotity(PIT_CH1_IRQ, PRIORITY_2);
-	/**Enables and sets a particular interrupt and its priority*/
-	NVIC_enableInterruptAndPriotity(PIT_CH2_IRQ, PRIORITY_2);
-	/**Enables and sets a particular interrupt and its priority*/
-	NVIC_enableInterruptAndPriotity(PIT_CH3_IRQ, PRIORITY_2);
+	NVIC_enableInterruptAndPriotity(PORTC_IRQ,PRIORITY_3);
 
 	/**Enables interrupts*/
 	EnableInterrupts;
@@ -90,29 +97,9 @@ void initMain(){
 	//initialize the used PIT for controlling the motor PWM
 	PIT_clear(PIT_0);
 	PIT_delay(PIT_0, SYSTEM_CLOCK, 0.2);// delay until next function value
-	//initialize the used PIT for controlling the motor PWM
-	PIT_clear(PIT_1);
-	PIT_delay(PIT_1, SYSTEM_CLOCK, 0.2F);// delay until next function value
-	//initialize the used PIT for controlling the motor PWM
-	PIT_clear(PIT_2);
-	PIT_delay(PIT_2, SYSTEM_CLOCK, 0.2F);// delay until next function valu
-	//initialize the used PIT for controlling the motor PWM
-	PIT_clear(PIT_3);
-	PIT_delay(PIT_3, SYSTEM_CLOCK, 0.2F);// delay until next function valu
 
 	UART_putString(UART_0, "\033[0;32;10m");
 	UART_putString(UART_0, "\033[2J");
 
-	UART_putString(UART_0, "\033[34;10H");
-	UART_putChar(UART_0, 219);
-	UART_putString(UART_0, "\033[34;15H");
-	UART_putChar(UART_0, 219);
-	UART_putString(UART_0, "\033[34;20H");
-	UART_putChar(UART_0, 219);
-	UART_putString(UART_0, "\033[34;25H");
-	UART_putChar(UART_0, 219);
-
-	addTile(COLUMN_1);
-	addTile(COLUMN_2);
-	addTile(COLUMN_3);
+	writeUI();
 }
