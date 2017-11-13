@@ -76,6 +76,12 @@ void initMain(){
 	PIT_clockGating();
 	/**Enables and sets a particular interrupt and its priority*/
 	NVIC_enableInterruptAndPriotity(PIT_CH0_IRQ, PRIORITY_2);
+	/**Enables and sets a particular interrupt and its priority*/
+	NVIC_enableInterruptAndPriotity(PIT_CH1_IRQ, PRIORITY_2);
+	/**Enables and sets a particular interrupt and its priority*/
+	NVIC_enableInterruptAndPriotity(PIT_CH2_IRQ, PRIORITY_2);
+	/**Enables and sets a particular interrupt and its priority*/
+	NVIC_enableInterruptAndPriotity(PIT_CH3_IRQ, PRIORITY_2);
 
 	/**Enables interrupts*/
 	EnableInterrupts;
@@ -83,5 +89,25 @@ void initMain(){
 	//initialize the used PIT for controlling the motor PWM
 	PIT_clear(PIT_0);
 	PIT_delay(PIT_0, SYSTEM_CLOCK, 0.2);// delay until next function value
+	//initialize the used PIT for controlling the motor PWM
+	PIT_clear(PIT_1);
+	PIT_delay(PIT_1, SYSTEM_CLOCK, 0.2F);// delay until next function value
+	//initialize the used PIT for controlling the motor PWM
+	PIT_clear(PIT_2);
+	PIT_delay(PIT_2, SYSTEM_CLOCK, 0.2F);// delay until next function valu
+	//initialize the used PIT for controlling the motor PWM
+	PIT_clear(PIT_3);
+	PIT_delay(PIT_3, SYSTEM_CLOCK, 0.2F);// delay until next function valu
 
+	UART_putString(UART_0, "\033[0;32;10m");
+	UART_putString(UART_0, "\033[2J");
+
+	UART_putChar(UART_0, 219);
+	UART_putString(UART_0, "\033[34;10H");
+	UART_putChar(UART_0, 219);
+	UART_putString(UART_0, "\033[34;15H");
+	UART_putChar(UART_0, 219);
+	UART_putString(UART_0, "\033[34;20H");
+	UART_putChar(UART_0, 219);
+	UART_putString(UART_0, "\033[34;25H");
 }

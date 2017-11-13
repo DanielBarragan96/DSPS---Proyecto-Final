@@ -10,8 +10,15 @@
 
 #include "DataTypeDefinitions.h"
 
-#define ANIMATION_SIZE 36
+#define ANIMATION_SIZE 34
 
 BooleanType moveLetter(sint8 data);
+
+BooleanType moveLetter2(sint8 data);
+
+BooleanType moveLetter3(sint8 data);
+
+BooleanType moveLetter4(sint8 data);
+
 
 #endif

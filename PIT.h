@@ -9,14 +9,13 @@
 #define PIT_H_
 
 #include "DataTypeDefinitions.h"
+#include "MK64F12.h"
 
 //the system clock of the Kinetis
 #define SYSTEM_CLOCK 21000000
 
-static uint8 PIT_INTR_FLAG = FALSE;
-
-#define PIT_CLOCK_GATING 0x800000
-
+//the delay to use with the PIT
+#define DELAY_PIT 2.0
 
 /*! This enumerated constant are used to select the PIT to be used*/
 typedef enum {PIT_0,PIT_1,PIT_2,PIT_3} PIT_Timer_t;
@@ -40,7 +39,6 @@ void PIT_IRQHandler(void);
  	 It is important to note that this strictly is not device driver since everything is
  	 contained in a single function, but in general you have to avoid this practices, this only
  	 for the propose of the homework
-
  	 \param[in]  pitTimer is the enumerated constant of PIT to be used.
  	 \param[in] systemClock is one of the required values to calculate the LDVAL trigger.
  	 \param[in] period one of the required values to calculate the LDVAL trigger.
@@ -59,8 +57,6 @@ void PIT_delay(PIT_Timer_t pitTimer,float systemClock ,float period);
  */
 void PIT_clockGating(void);
 
-uint8 PIT_interruptFlagStatus(void);
-
 /********************************************************************************************/
 /********************************************************************************************/
 /********************************************************************************************/
@@ -69,7 +65,7 @@ uint8 PIT_interruptFlagStatus(void);
  	 is in use.
  	 \return PIT_INTR_FLAG;
  */
-uint8 PIT_getIntrStutus(void);
+uint8 PIT_getIntrStutus(PIT_Timer_t pitTimer);
 /********************************************************************************************/
 /********************************************************************************************/
 /********************************************************************************************/
@@ -80,6 +76,16 @@ uint8 PIT_getIntrStutus(void);
  	 \return void
  */
 void PIT_clear(PIT_Timer_t pitTimer);
+
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This function is used to stop the PIT.
+ 	  \param[in] pitTimer is the enumerated constant of PIT to stop.
+ 	 \return void
+ */
+void PIT_stop(PIT_Timer_t pitTimer);
 
 
 #endif /* PIT_H_ */

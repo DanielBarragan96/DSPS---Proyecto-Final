@@ -16,6 +16,7 @@
 #include "States.h"
 #include "I2C.h"
 #include "MCG.h"
+#include "PIT.h"
 #include "PCF8563.h"
 #include "TeraTerm.h"
 #include "Animation.h"
@@ -24,9 +25,12 @@ int main(void)
 {
 	initMain();//initialize all configurations for using this practice
 
-	moveLetter('A');
 	for(;;) {	   
 
+		if (TRUE == PIT_getIntrStutus(PIT_0)) moveLetter(219);
+		if (TRUE == PIT_getIntrStutus(PIT_1)) moveLetter2(219);
+		if (TRUE == PIT_getIntrStutus(PIT_2)) moveLetter3(219);
+		if (TRUE == PIT_getIntrStutus(PIT_3)) moveLetter4(219);
 
 
 	}
