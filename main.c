@@ -27,10 +27,7 @@ int main(void)
 
 	for(;;) {	   
 
-		if (TRUE == PIT_getIntrStutus(PIT_0)) moveLetter(219);
-		if (TRUE == PIT_getIntrStutus(PIT_1)) moveLetter2(219);
-		if (TRUE == PIT_getIntrStutus(PIT_2)) moveLetter3(219);
-		if (TRUE == PIT_getIntrStutus(PIT_3)) moveLetter4(219);
+		if (TRUE == PIT_getIntrStutus(PIT_0)) moveTiles();
 
 
 	}
