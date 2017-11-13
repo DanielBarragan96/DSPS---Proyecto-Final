@@ -102,7 +102,6 @@ void initMain(){
 	UART_putString(UART_0, "\033[0;32;10m");
 	UART_putString(UART_0, "\033[2J");
 
-	UART_putChar(UART_0, 219);
 	UART_putString(UART_0, "\033[34;10H");
 	UART_putChar(UART_0, 219);
 	UART_putString(UART_0, "\033[34;15H");
@@ -110,4 +109,5 @@ void initMain(){
 	UART_putString(UART_0, "\033[34;20H");
 	UART_putChar(UART_0, 219);
 	UART_putString(UART_0, "\033[34;25H");
+	UART_putChar(UART_0, 219);
 }

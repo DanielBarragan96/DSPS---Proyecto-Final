@@ -84,79 +84,68 @@ const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 		"\033[33;25H","\033[34;25H",
 };
 
-uint8 animationIndex = 0;
-uint8 animationIndex2 = 0;
-uint8 animationIndex3 = 0;
-uint8 animationIndex4 = 0;
+static Tiles tiles[TILES_SIZE] = {{COLUMN_1,0},{COLUMN_2,0},{COLUMN_3,2},{COLUMN_4,3},{COLUMN_1,3},{COLUMN_4,10}};
+static uint8 listSize = 5;
 
-BooleanType moveLetter(sint8 data){
-	if(ANIMATION_SIZE <= (animationIndex+1))
-		animationIndex = 0;
+BooleanType moveTiles(){
+	uint8 passTiles = 0;
+	while(listSize >= passTiles){
+		if(ANIMATION_SIZE <= (tiles[passTiles].tileIndex + 1)){
+			tiles[passTiles].tileIndex = 0;
+			writeUI();
+		}
 
-	//initialize the used PIT for controlling the motor PWM
-	PIT_clear(PIT_0);
-	PIT_delay(PIT_0, SYSTEM_CLOCK, 2.0F);// delay until next function value
+		//initialize the used PIT for controlling the motor PWM
+		PIT_clear(PIT_0);
+		PIT_delay(PIT_0, SYSTEM_CLOCK, 0.5F);// delay until next function value
 
-	UART_putString(UART_0, commandsFirstColumn[animationIndex++]);
-	UART_putChar(UART_0, ' ');
-	UART_putString(UART_0, commandsFirstColumn[animationIndex]);
-	UART_putChar(UART_0, data);
-
-	UART_putString(UART_0, commandsFirstColumn[ANIMATION_SIZE-1]);
-
-	return TRUE;
-}
-
-BooleanType moveLetter2(sint8 data){
-	if(ANIMATION_SIZE <= (animationIndex2+1))
-		animationIndex2 = 0;
-
-	//initialize the used PIT for controlling the motor PWM
-	PIT_clear(PIT_1);
-	PIT_delay(PIT_1, SYSTEM_CLOCK, 5.0F);// delay until next function value
-
-	UART_putString(UART_0, commandsSecondColumn[animationIndex2++]);
-	UART_putChar(UART_0, ' ');
-	UART_putString(UART_0, commandsSecondColumn[animationIndex2]);
-	UART_putChar(UART_0, data);
-
-	UART_putString(UART_0, commandsSecondColumn[ANIMATION_SIZE-1]);
-
-	return TRUE;
-}
-
-BooleanType moveLetter3(sint8 data){
-	if(ANIMATION_SIZE <= (animationIndex3+1))
-		animationIndex3 = 0;
-
-	//initialize the used PIT for controlling the motor PWM
-	PIT_clear(PIT_2);
-	PIT_delay(PIT_2, SYSTEM_CLOCK, 0.5F);// delay until next function value
-
-	UART_putString(UART_0, commandsThirdColumn[animationIndex3++]);
-	UART_putChar(UART_0, ' ');
-	UART_putString(UART_0, commandsThirdColumn[animationIndex3]);
-	UART_putChar(UART_0, data);
-
-	UART_putString(UART_0, commandsThirdColumn[ANIMATION_SIZE-1]);
-
-	return TRUE;
-}
-
-BooleanType moveLetter4(sint8 data){
-	if(ANIMATION_SIZE <= (animationIndex4+1))
-		animationIndex4 = 0;
-
-	//initialize the used PIT for controlling the motor PWM
-	PIT_clear(PIT_3);
-	PIT_delay(PIT_3, SYSTEM_CLOCK, 15.0F);// delay until next function value
-
-	UART_putString(UART_0, commandsFourthColumn[animationIndex4++]);
-	UART_putChar(UART_0, ' ');
-	UART_putString(UART_0, commandsFourthColumn[animationIndex4]);
-	UART_putChar(UART_0, data);
+		switch(tiles[passTiles].column){
+			case COLUMN_1:{
+				UART_putString(UART_0, commandsFirstColumn[tiles[passTiles].tileIndex++]);
+				UART_putChar(UART_0, ' ');
+				UART_putString(UART_0, commandsFirstColumn[tiles[passTiles++].tileIndex]);
+				UART_putChar(UART_0, COLUMN_1);
+				break;
+			}
+			case COLUMN_2:{
+				UART_putString(UART_0, commandsSecondColumn[tiles[passTiles].tileIndex++]);
+				UART_putChar(UART_0, ' ');
+				UART_putString(UART_0, commandsSecondColumn[tiles[passTiles++].tileIndex]);
+				UART_putChar(UART_0, COLUMN_2);
+				break;
+				}
+			case COLUMN_3:{
+				UART_putString(UART_0, commandsThirdColumn[tiles[passTiles].tileIndex++]);
+				UART_putChar(UART_0, ' ');
+				UART_putString(UART_0, commandsThirdColumn[tiles[passTiles++].tileIndex]);
+				UART_putChar(UART_0, COLUMN_3);
+				break;
+				}
+			case COLUMN_4:{
+				UART_putString(UART_0, commandsFourthColumn[tiles[passTiles].tileIndex++]);
+				UART_putChar(UART_0, ' ');
+				UART_putString(UART_0, commandsFourthColumn[tiles[passTiles++].tileIndex]);
+				UART_putChar(UART_0, COLUMN_4);
+				break;
+				}
+			default:
+				return FALSE;
+		}
+	}
 
 	UART_putString(UART_0, commandsFourthColumn[ANIMATION_SIZE-1]);
 
+	return TRUE;
+}
+
+BooleanType writeUI(){
+	UART_putString(UART_0, "\033[34;10H");
+	UART_putChar(UART_0, 219);
+	UART_putString(UART_0, "\033[34;15H");
+	UART_putChar(UART_0, 219);
+	UART_putString(UART_0, "\033[34;20H");
+	UART_putChar(UART_0, 219);
+	UART_putString(UART_0, "\033[34;25H");
+	UART_putChar(UART_0, 219);
 	return TRUE;
 }

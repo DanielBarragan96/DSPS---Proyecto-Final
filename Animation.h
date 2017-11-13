@@ -11,14 +11,24 @@
 #include "DataTypeDefinitions.h"
 
 #define ANIMATION_SIZE 34
+#define TILES_SIZE 20
 
-BooleanType moveLetter(sint8 data);
 
-BooleanType moveLetter2(sint8 data);
+typedef enum{
+	COLUMN_1 = 'I',
+	COLUMN_2 = 'A',
+	COLUMN_3 = 'B',
+	COLUMN_4 = 'D'
+}Column;
 
-BooleanType moveLetter3(sint8 data);
+typedef struct{
+	Column column;
+	uint8 tileIndex;
+}Tiles;
 
-BooleanType moveLetter4(sint8 data);
+BooleanType moveTiles();
+
+BooleanType writeUI();
 
 
 #endif
