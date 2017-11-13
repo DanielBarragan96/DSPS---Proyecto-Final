@@ -84,52 +84,78 @@ const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 		"\033[33;25H","\033[34;25H",
 };
 
-static Tiles tiles[TILES_SIZE] = {{COLUMN_1,0},{COLUMN_2,0},{COLUMN_3,2},{COLUMN_4,3},{COLUMN_1,3},{COLUMN_4,10}};
-static uint8 listSize = 5;
+static Tiles tiles[TILES_SIZE];
+static uint8 listSize = 0;
+static BooleanType tilesEmpty = TRUE;
+static BooleanType tilesFull = FALSE;
+
+
+BooleanType addTile(Column column){
+	if(TILES_SIZE <= listSize){
+		tilesFull = TRUE;
+		tilesEmpty = FALSE;
+		return FALSE;
+	}
+	tiles[listSize].column = column;
+	tiles[listSize++].tileIndex = 0;
+	tilesEmpty = FALSE;
+	return TRUE;
+}
+
+BooleanType removeTile(uint8 index){
+	if(listSize <= index)
+		return FALSE;
+	while(listSize > index){
+		tiles[index] = tiles[1+index++];
+	}
+	listSize--;
+	return TRUE;
+}
 
 BooleanType moveTiles(){
 	uint8 passTiles = 0;
-	while(listSize >= passTiles){
+	while(listSize > passTiles){
 		if(ANIMATION_SIZE <= (tiles[passTiles].tileIndex + 1)){
-			tiles[passTiles].tileIndex = 0;
+			removeTile(passTiles);
 			writeUI();
 		}
+		else{
+			//initialize the used PIT for controlling the motor PWM
+			PIT_clear(PIT_0);
+			PIT_delay(PIT_0, SYSTEM_CLOCK, 1.0F);// delay until next function value
 
-		//initialize the used PIT for controlling the motor PWM
-		PIT_clear(PIT_0);
-		PIT_delay(PIT_0, SYSTEM_CLOCK, 0.5F);// delay until next function value
-
-		switch(tiles[passTiles].column){
-			case COLUMN_1:{
-				UART_putString(UART_0, commandsFirstColumn[tiles[passTiles].tileIndex++]);
-				UART_putChar(UART_0, ' ');
-				UART_putString(UART_0, commandsFirstColumn[tiles[passTiles++].tileIndex]);
-				UART_putChar(UART_0, COLUMN_1);
-				break;
+			switch(tiles[passTiles].column){
+				case COLUMN_1:{
+					UART_putString(UART_0, commandsFirstColumn[tiles[passTiles].tileIndex++]);
+					UART_putChar(UART_0, ' ');
+					UART_putString(UART_0, commandsFirstColumn[tiles[passTiles++].tileIndex]);
+					UART_putChar(UART_0, COLUMN_1);
+					break;
+				}
+				case COLUMN_2:{
+					UART_putString(UART_0, commandsSecondColumn[tiles[passTiles].tileIndex++]);
+					UART_putChar(UART_0, ' ');
+					UART_putString(UART_0, commandsSecondColumn[tiles[passTiles++].tileIndex]);
+					UART_putChar(UART_0, COLUMN_2);
+					break;
+					}
+				case COLUMN_3:{
+					UART_putString(UART_0, commandsThirdColumn[tiles[passTiles].tileIndex++]);
+					UART_putChar(UART_0, ' ');
+					UART_putString(UART_0, commandsThirdColumn[tiles[passTiles++].tileIndex]);
+					UART_putChar(UART_0, COLUMN_3);
+					break;
+					}
+				case COLUMN_4:{
+					UART_putString(UART_0, commandsFourthColumn[tiles[passTiles].tileIndex++]);
+					UART_putChar(UART_0, ' ');
+					UART_putString(UART_0, commandsFourthColumn[tiles[passTiles++].tileIndex]);
+					UART_putChar(UART_0, COLUMN_4);
+					break;
+					}
+				default:
+					return FALSE;
 			}
-			case COLUMN_2:{
-				UART_putString(UART_0, commandsSecondColumn[tiles[passTiles].tileIndex++]);
-				UART_putChar(UART_0, ' ');
-				UART_putString(UART_0, commandsSecondColumn[tiles[passTiles++].tileIndex]);
-				UART_putChar(UART_0, COLUMN_2);
-				break;
-				}
-			case COLUMN_3:{
-				UART_putString(UART_0, commandsThirdColumn[tiles[passTiles].tileIndex++]);
-				UART_putChar(UART_0, ' ');
-				UART_putString(UART_0, commandsThirdColumn[tiles[passTiles++].tileIndex]);
-				UART_putChar(UART_0, COLUMN_3);
-				break;
-				}
-			case COLUMN_4:{
-				UART_putString(UART_0, commandsFourthColumn[tiles[passTiles].tileIndex++]);
-				UART_putChar(UART_0, ' ');
-				UART_putString(UART_0, commandsFourthColumn[tiles[passTiles++].tileIndex]);
-				UART_putChar(UART_0, COLUMN_4);
-				break;
-				}
-			default:
-				return FALSE;
 		}
 	}
 

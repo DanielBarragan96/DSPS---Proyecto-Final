@@ -16,6 +16,7 @@
 #include "MCG.h"
 #include "PCF8563.h"
 #include "TeraTerm.h"
+#include "Animation.h"
 
 #define CLK_FREQ_HZ 50000000  /* CLKIN0 frequency */
 #define SLOW_IRC_FREQ 32768	/*This is the approximate value for the slow irc*/
@@ -110,4 +111,8 @@ void initMain(){
 	UART_putChar(UART_0, 219);
 	UART_putString(UART_0, "\033[34;25H");
 	UART_putChar(UART_0, 219);
+
+	addTile(COLUMN_1);
+	addTile(COLUMN_2);
+	addTile(COLUMN_3);
 }

@@ -26,6 +26,10 @@ typedef struct{
 	uint8 tileIndex;
 }Tiles;
 
+BooleanType addTile(Column column);
+
+BooleanType removeTile(uint8 index);
+
 BooleanType moveTiles();
 
 BooleanType writeUI();
