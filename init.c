@@ -56,14 +56,15 @@ void initMain(){
    GPIO_clockGating(GPIO_C);
    PIT_clockGating();
 
-   GPIO_pinControlRegisterType pinControlRegisterInputInterrupt = GPIO_MUX1|GPIO_PE|INTR_RISING_EDGE;
+   GPIO_pinControlRegisterType pinControlRegisterInputInterruptFallingEdge = GPIO_MUX1|GPIO_PE|INTR_FALLING_EDGE;
+   GPIO_pinControlRegisterType pinControlRegisterInputInterruptRisingEdge = GPIO_MUX1|GPIO_PE|INTR_RISING_EDGE;
 
    /**Configure the characteristics in the GPIOs*/
 	//Buttons
-	GPIO_pinControlRegister(GPIO_C,BIT5,&pinControlRegisterInputInterrupt);
-	GPIO_pinControlRegister(GPIO_C,BIT7,&pinControlRegisterInputInterrupt);
-	GPIO_pinControlRegister(GPIO_C,BIT0,&pinControlRegisterInputInterrupt);
-	GPIO_pinControlRegister(GPIO_C,BIT9,&pinControlRegisterInputInterrupt);
+	GPIO_pinControlRegister(GPIO_C,BIT5,&pinControlRegisterInputInterruptFallingEdge);
+	GPIO_pinControlRegister(GPIO_C,BIT7,&pinControlRegisterInputInterruptFallingEdge);
+	GPIO_pinControlRegister(GPIO_C,BIT0,&pinControlRegisterInputInterruptFallingEdge);
+	GPIO_pinControlRegister(GPIO_C,BIT9,&pinControlRegisterInputInterruptFallingEdge);
 
 	/**Configure Port Pins as input/output*/
 	//Buttons
@@ -98,12 +99,13 @@ void initMain(){
 
 	//initialize the used PIT for controlling the motor PWM
 	PIT_clear(PIT_0);
-	PIT_delay(PIT_0, SYSTEM_CLOCK, 0.2);// delay until next function value
+	PIT_delay(PIT_0, SYSTEM_CLOCK, 3.5F);// delay until next function value
 
 	//initialize the used PIT for controlling the motor PWM
 	PIT_clear(PIT_1);
-	PIT_delay(PIT_1, SYSTEM_CLOCK, 0.2);// delay until next function value
+	PIT_delay(PIT_1, SYSTEM_CLOCK, 3.5F);// delay until next function value
 
+	//configure the UART display
 	UART_putString(UART_0, "\033[0;32;10m");
 	UART_putString(UART_0, "\033[2J");
 

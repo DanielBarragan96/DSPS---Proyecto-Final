@@ -27,9 +27,9 @@ int main(void)
 
 	for(;;) {	   
 
-		if (TRUE == PIT_getIntrStutus(PIT_0)) moveTiles();//update the Tiles position in screen
+		if (PIT_getIntrStutus(PIT_0)) moveTiles();//update the Tiles position in screen
 
-		if (TRUE == PIT_getIntrStutus(PIT_1)) controlSong();//update current song tiles
+		if (PIT_getIntrStutus(PIT_1)) controlSong();//update current song tiles
 	}
 	return 0;
 }

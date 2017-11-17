@@ -86,25 +86,80 @@ const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 };
 
 //This stores each song tile and the delay it needs until the system has to display the next tile
-const Song songs[SONG_SIZE] = {{COLUMN_1,1.0F},{COLUMN_2,4.0F},
-							   {COLUMN_3,0.5F},{COLUMN_4,8.0F},
-							   {COLUMN_3,4.0F},{COLUMN_2,1.0F}};
+const Song songs[SONG_SIZE] = {{COLUMN_2,4.5F},{COLUMN_2,3.5F},
+							   {COLUMN_2,3.5F},{COLUMN_2,3.5F},
+							   {COLUMN_1,3.5F},{COLUMN_1,3.5F},
+							   {COLUMN_1,3.5F},{COLUMN_1,3.5F},
+							   {COLUMN_1,4.5F},{COLUMN_2,3.5F}};
 
 //array of stored tiles
 static Tiles tiles[TILES_SIZE];
 //size of the tiles List
 static uint8 listSize = 0;
 
+//indicate the game difficulty
+static Dificulty gameDificulty = EASY;
+//game scores
+static uint8 playerScore = 0;
+static uint8 songScore = 0;
+//indicate when the song is ended
+BooleanType songEnded = FALSE;
+//indicate the current tile printed of the song
 static uint8 songIndex = 0;
 //List flags
-static BooleanType tilesEmpty = TRUE;
+static BooleanType tilesEmpty = FALSE;
 static BooleanType tilesFull = FALSE;
 
+BooleanType handleTilePress(Column column){
+	uint8 currentTileSongIndex = getLowerColumnVal(column);
+	if(NO_TILE != currentTileSongIndex){//there was a tile in the column
+			uint8 index = tiles[currentTileSongIndex].tileIndex;//get the index of the tile
+			if(gameDificulty <= index){//if the tile is in the limit according to the difficulty
+				playerScore++;//increase player score
+				UART_putString(UART_0, commandsFirstColumn[index]);//position cursor
+				switch(column){//update each column animation for the tiles
+					case COLUMN_1:{
+						UART_putString(UART_0, commandsFirstColumn[index]);
+						break;
+					}
+					case COLUMN_2:{
+						UART_putString(UART_0, commandsSecondColumn[index]);
+						break;
+						}
+					case COLUMN_3:{
+						UART_putString(UART_0, commandsThirdColumn[index]);
+						break;
+						}
+					case COLUMN_4:{
+						UART_putString(UART_0, commandsFourthColumn[index]);
+						break;
+						}
+					default:
+						return FALSE;//if column selected out of order (ERROR)
+				}
+				UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
+				removeTile(currentTileSongIndex);//remove the pressed tile
+				return TRUE;//scored
+			}
+	}
+	return FALSE;//there was an error
+}
+
+uint8 getLowerColumnVal(Column column){
+	uint8 searchIndex = 0;
+	while(listSize > searchIndex){//check all the tiles
+		if(column == tiles[searchIndex].column){//first tile in the column
+			return searchIndex;//return the index of the tiles array
+		}
+		searchIndex++;//else pass to next tile
+	}
+	return NO_TILE;//there is no tile in the specified column
+}
 
 BooleanType controlSong(){
-	if(SONG_SIZE <= songIndex) return FALSE;
-	addTile(songs[songIndex].column);
 	PIT_clear(PIT_1);
+	if(SONG_SIZE <= songIndex) return FALSE;//when song ended
+	addTile(songs[songIndex].column);//add next song tile
 	PIT_delay(PIT_1, SYSTEM_CLOCK, songs[songIndex++].delay);// delay until update screen
 	return TRUE;
 }
@@ -128,10 +183,18 @@ BooleanType removeTile(uint8 index){
 		tiles[index] = tiles[1+index++];//move all tiles after the "index"to the left
 	}
 	listSize--;//decrease List size
+	songScore++;
+	if(0 == listSize) tilesEmpty = TRUE;
 	return TRUE;
 }
 
 BooleanType moveTiles(){
+	if(tilesEmpty){//if the tiles are empty
+		PIT_clear(PIT_0);
+		UART_putString(UART_0, "\033[2J");//clear screen
+		songEnded = TRUE;//indicate the end of the song
+		return FALSE;
+	}
 	uint8 passTiles = 0;
 	while(listSize > passTiles){//check all the Tiles of the List
 		if(ANIMATION_SIZE <= (tiles[passTiles].tileIndex + 1)){
@@ -190,5 +253,18 @@ BooleanType writeUI(){//write the interface
 	UART_putChar(UART_0, INTERFACE_TILE);
 	UART_putString(UART_0, "\033[34;25H");
 	UART_putChar(UART_0, INTERFACE_TILE);
+
+	//Print interface for the difficulty
+	UART_putString(UART_0, "\033[27;30H");
+	UART_putChar(UART_0, INTERFACE_TILE);
+	UART_putString(UART_0, "\033[29;30H");
+	UART_putChar(UART_0, INTERFACE_TILE);
+	UART_putChar(UART_0, INTERFACE_TILE);
+	UART_putString(UART_0, "\033[31;30H");
+	UART_putChar(UART_0, INTERFACE_TILE);
+	UART_putChar(UART_0, INTERFACE_TILE);
+	UART_putChar(UART_0, INTERFACE_TILE);
 	return TRUE;
 }
+
+BooleanType getSongEnded(){ return songEnded; }// return the songEnded flag
