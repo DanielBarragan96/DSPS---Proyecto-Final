@@ -86,20 +86,52 @@ const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 };
 
 //This stores each song tile and the delay it needs until the system has to display the next tile
-const Song songs[SONG_SIZE] = {{COLUMN_1,1.0F},{COLUMN_2,4.0F},
-							   {COLUMN_3,0.5F},{COLUMN_4,8.0F},
-							   {COLUMN_3,4.0F},{COLUMN_2,1.0F}};
+const Song songs[SONG_SIZE] = {{COLUMN_1,4.5F},{COLUMN_1,3.5F},
+							   {COLUMN_1,3.5F},{COLUMN_1,3.5F},
+							   {COLUMN_1,3.5F},{COLUMN_1,3.5F},
+							   {COLUMN_1,3.5F},{COLUMN_1,3.5F},
+							   {COLUMN_1,4.5F},{COLUMN_2,3.5F}};
 
 //array of stored tiles
 static Tiles tiles[TILES_SIZE];
 //size of the tiles List
 static uint8 listSize = 0;
 
+static Dificulty gameDificulty = HARD;
+static uint8 playerScore = 0;
+static uint8 songScore = 0;
+BooleanType songEnded = FALSE;
+
 static uint8 songIndex = 0;
 //List flags
-static BooleanType tilesEmpty = TRUE;
+static BooleanType tilesEmpty = FALSE;
 static BooleanType tilesFull = FALSE;
 
+BooleanType handleTilePress(Column column){
+	uint8 currentTileSongIndex = getLowerColumnVal(column);
+	if(NO_TILE != currentTileSongIndex){
+			uint8 index = tiles[currentTileSongIndex].tileIndex;
+			if(gameDificulty <= index){
+				playerScore++;
+				UART_putString(UART_0, commandsFirstColumn[index]);
+				UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
+				removeTile(currentTileSongIndex);
+				return TRUE;
+			}
+	}
+	return FALSE;
+}
+
+uint8 getLowerColumnVal(Column column){
+	uint8 searchIndex = 0;
+	while(listSize > searchIndex){
+		if(column == tiles[searchIndex].column){
+			return searchIndex;
+		}
+		searchIndex++;
+	}
+	return NO_TILE;
+}
 
 BooleanType controlSong(){
 	if(SONG_SIZE <= songIndex) return FALSE;
@@ -115,6 +147,9 @@ BooleanType addTile(Column column){
 		tilesEmpty = FALSE;
 		return FALSE;//because the value wasn't saved
 	}
+	if(tilesEmpty){
+		songEnded = FALSE;
+	}
 	tiles[listSize].column = column;//add new tile to the List
 	tiles[listSize++].tileIndex = 0;
 	tilesEmpty = FALSE;
@@ -128,10 +163,18 @@ BooleanType removeTile(uint8 index){
 		tiles[index] = tiles[1+index++];//move all tiles after the "index"to the left
 	}
 	listSize--;//decrease List size
+	songScore++;
+	if(0 == listSize) tilesEmpty = TRUE;
 	return TRUE;
 }
 
 BooleanType moveTiles(){
+	if(tilesEmpty){
+		PIT_clear(PIT_0);
+		UART_putString(UART_0, "\033[2J");
+		songEnded = TRUE;
+		return FALSE;
+	}
 	uint8 passTiles = 0;
 	while(listSize > passTiles){//check all the Tiles of the List
 		if(ANIMATION_SIZE <= (tiles[passTiles].tileIndex + 1)){
@@ -190,5 +233,17 @@ BooleanType writeUI(){//write the interface
 	UART_putChar(UART_0, INTERFACE_TILE);
 	UART_putString(UART_0, "\033[34;25H");
 	UART_putChar(UART_0, INTERFACE_TILE);
+
+	UART_putString(UART_0, "\033[27;30H");
+	UART_putChar(UART_0, INTERFACE_TILE);
+	UART_putString(UART_0, "\033[29;30H");
+	UART_putChar(UART_0, INTERFACE_TILE);
+	UART_putChar(UART_0, INTERFACE_TILE);
+	UART_putString(UART_0, "\033[31;30H");
+	UART_putChar(UART_0, INTERFACE_TILE);
+	UART_putChar(UART_0, INTERFACE_TILE);
+	UART_putChar(UART_0, INTERFACE_TILE);
 	return TRUE;
 }
+
+BooleanType getSongEnded(){ return songEnded; }

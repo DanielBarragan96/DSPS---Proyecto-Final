@@ -13,7 +13,14 @@
 #define ANIMATION_SIZE 34 // number of commands to move the tiles (rows)
 #define TILES_SIZE 100 // maximum number of tiles that can be displayed in screen simultaneously
 #define INTERFACE_TILE 219 // the tile shown in the UI
-#define SONG_SIZE 6 // the number of tiles per song
+#define SONG_SIZE 10 // the number of tiles per song
+#define NO_TILE 100
+
+typedef enum{
+	EASY = ANIMATION_SIZE - 7,
+	MEDIUM = ANIMATION_SIZE - 5,
+	HARD = ANIMATION_SIZE - 3
+}Dificulty;
 
 /*! This data type is used for selecting the column of the Tile
  * and also the ASCII code to print for each column*/
@@ -33,6 +40,13 @@ typedef struct{
 	Column column;
 	uint8 delay;
 }Song;
+
+
+
+BooleanType handleTilePress(Column column);
+
+uint8 getLowerColumnVal(Column column);
+
 
 /********************************************************************************************/
 /********************************************************************************************/
