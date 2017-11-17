@@ -13,6 +13,7 @@
 #define ANIMATION_SIZE 34 // number of commands to move the tiles (rows)
 #define TILES_SIZE 100 // maximum number of tiles that can be displayed in screen simultaneously
 #define INTERFACE_TILE 219 // the tile shown in the UI
+#define SONG_SIZE 6
 
 /*! This data type is used for selecting the column of the Tile
  * and also the ASCII code to print for each column*/
@@ -27,6 +28,14 @@ typedef struct{
 	Column column;
 	uint8 tileIndex;
 }Tiles;
+
+typedef struct{
+	Column column;
+	uint8 delay;
+}Song;
+
+
+BooleanType controlSong();
 
 /********************************************************************************************/
 /********************************************************************************************/

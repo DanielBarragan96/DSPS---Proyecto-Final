@@ -89,6 +89,8 @@ void initMain(){
 	/**Enables and sets a particular interrupt and its priority*/
 	NVIC_enableInterruptAndPriotity(PIT_CH0_IRQ, PRIORITY_4);
 	/**Enables and sets a particular interrupt and its priority*/
+	NVIC_enableInterruptAndPriotity(PIT_CH1_IRQ, PRIORITY_4);
+	/**Enables and sets a particular interrupt and its priority*/
 	NVIC_enableInterruptAndPriotity(PORTC_IRQ,PRIORITY_3);
 
 	/**Enables interrupts*/
@@ -97,6 +99,10 @@ void initMain(){
 	//initialize the used PIT for controlling the motor PWM
 	PIT_clear(PIT_0);
 	PIT_delay(PIT_0, SYSTEM_CLOCK, 0.2);// delay until next function value
+
+	//initialize the used PIT for controlling the motor PWM
+	PIT_clear(PIT_1);
+	PIT_delay(PIT_1, SYSTEM_CLOCK, 0.2);// delay until next function value
 
 	UART_putString(UART_0, "\033[0;32;10m");
 	UART_putString(UART_0, "\033[2J");

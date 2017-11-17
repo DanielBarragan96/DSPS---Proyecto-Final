@@ -84,14 +84,29 @@ const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 		"\033[31;25H","\033[32;25H",
 		"\033[33;25H","\033[34;25H",
 };
+
+const Song songs[SONG_SIZE] = {{COLUMN_1,1.0F},{COLUMN_2,4.0F},
+							   {COLUMN_3,0.5F},{COLUMN_4,8.0F},
+							   {COLUMN_3,4.0F},{COLUMN_2,1.0F}};
+
 //array of stored tiles
 static Tiles tiles[TILES_SIZE];
 //size of the tiles List
 static uint8 listSize = 0;
+
+static uint8 songIndex = 0;
 //List flags
 static BooleanType tilesEmpty = TRUE;
 static BooleanType tilesFull = FALSE;
 
+
+BooleanType controlSong(){
+	if(SONG_SIZE <= songIndex) return FALSE;
+	addTile(songs[songIndex].column);
+	PIT_clear(PIT_1);
+	PIT_delay(PIT_1, SYSTEM_CLOCK, songs[songIndex++].delay);// delay until update screen
+	return TRUE;
+}
 
 BooleanType addTile(Column column){
 	if(TILES_SIZE <= listSize){
