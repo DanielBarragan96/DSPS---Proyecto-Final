@@ -62,9 +62,9 @@ void initMain(){
    /**Configure the characteristics in the GPIOs*/
 	//Buttons
 	GPIO_pinControlRegister(GPIO_C,BIT5,&pinControlRegisterInputInterruptFallingEdge);
-	GPIO_pinControlRegister(GPIO_C,BIT7,&pinControlRegisterInputInterruptRisingEdge);
-	GPIO_pinControlRegister(GPIO_C,BIT0,&pinControlRegisterInputInterruptRisingEdge);
-	GPIO_pinControlRegister(GPIO_C,BIT9,&pinControlRegisterInputInterruptRisingEdge);
+	GPIO_pinControlRegister(GPIO_C,BIT7,&pinControlRegisterInputInterruptFallingEdge);
+	GPIO_pinControlRegister(GPIO_C,BIT0,&pinControlRegisterInputInterruptFallingEdge);
+	GPIO_pinControlRegister(GPIO_C,BIT9,&pinControlRegisterInputInterruptFallingEdge);
 
 	/**Configure Port Pins as input/output*/
 	//Buttons

@@ -86,8 +86,8 @@ const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 };
 
 //This stores each song tile and the delay it needs until the system has to display the next tile
-const Song songs[SONG_SIZE] = {{COLUMN_1,4.5F},{COLUMN_1,3.5F},
-							   {COLUMN_1,3.5F},{COLUMN_1,3.5F},
+const Song songs[SONG_SIZE] = {{COLUMN_2,4.5F},{COLUMN_2,3.5F},
+							   {COLUMN_2,3.5F},{COLUMN_2,3.5F},
 							   {COLUMN_1,3.5F},{COLUMN_1,3.5F},
 							   {COLUMN_1,3.5F},{COLUMN_1,3.5F},
 							   {COLUMN_1,4.5F},{COLUMN_2,3.5F}};
@@ -98,7 +98,7 @@ static Tiles tiles[TILES_SIZE];
 static uint8 listSize = 0;
 
 //indicate the game difficulty
-static Dificulty gameDificulty = HARD;
+static Dificulty gameDificulty = EASY;
 //game scores
 static uint8 playerScore = 0;
 static uint8 songScore = 0;
@@ -117,6 +117,26 @@ BooleanType handleTilePress(Column column){
 			if(gameDificulty <= index){//if the tile is in the limit according to the difficulty
 				playerScore++;//increase player score
 				UART_putString(UART_0, commandsFirstColumn[index]);//position cursor
+				switch(column){//update each column animation for the tiles
+					case COLUMN_1:{
+						UART_putString(UART_0, commandsFirstColumn[index]);
+						break;
+					}
+					case COLUMN_2:{
+						UART_putString(UART_0, commandsSecondColumn[index]);
+						break;
+						}
+					case COLUMN_3:{
+						UART_putString(UART_0, commandsThirdColumn[index]);
+						break;
+						}
+					case COLUMN_4:{
+						UART_putString(UART_0, commandsFourthColumn[index]);
+						break;
+						}
+					default:
+						return FALSE;//if column selected out of order (ERROR)
+				}
 				UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
 				removeTile(currentTileSongIndex);//remove the pressed tile
 				return TRUE;//scored
