@@ -105,6 +105,7 @@ void initMain(){
 	PIT_clear(PIT_1);
 	PIT_delay(PIT_1, SYSTEM_CLOCK, 3.5F);// delay until next function value
 
+	//configure the UART display
 	UART_putString(UART_0, "\033[0;32;10m");
 	UART_putString(UART_0, "\033[2J");
 

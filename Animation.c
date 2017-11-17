@@ -97,11 +97,14 @@ static Tiles tiles[TILES_SIZE];
 //size of the tiles List
 static uint8 listSize = 0;
 
+//indicate the game difficulty
 static Dificulty gameDificulty = HARD;
+//game scores
 static uint8 playerScore = 0;
 static uint8 songScore = 0;
+//indicate when the song is ended
 BooleanType songEnded = FALSE;
-
+//indicate the current tile printed of the song
 static uint8 songIndex = 0;
 //List flags
 static BooleanType tilesEmpty = FALSE;
@@ -109,34 +112,34 @@ static BooleanType tilesFull = FALSE;
 
 BooleanType handleTilePress(Column column){
 	uint8 currentTileSongIndex = getLowerColumnVal(column);
-	if(NO_TILE != currentTileSongIndex){
-			uint8 index = tiles[currentTileSongIndex].tileIndex;
-			if(gameDificulty <= index){
-				playerScore++;
-				UART_putString(UART_0, commandsFirstColumn[index]);
+	if(NO_TILE != currentTileSongIndex){//there was a tile in the column
+			uint8 index = tiles[currentTileSongIndex].tileIndex;//get the index of the tile
+			if(gameDificulty <= index){//if the tile is in the limit according to the difficulty
+				playerScore++;//increase player score
+				UART_putString(UART_0, commandsFirstColumn[index]);//position cursor
 				UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
-				removeTile(currentTileSongIndex);
-				return TRUE;
+				removeTile(currentTileSongIndex);//remove the pressed tile
+				return TRUE;//scored
 			}
 	}
-	return FALSE;
+	return FALSE;//there was an error
 }
 
 uint8 getLowerColumnVal(Column column){
 	uint8 searchIndex = 0;
-	while(listSize > searchIndex){
-		if(column == tiles[searchIndex].column){
-			return searchIndex;
+	while(listSize > searchIndex){//check all the tiles
+		if(column == tiles[searchIndex].column){//first tile in the column
+			return searchIndex;//return the index of the tiles array
 		}
-		searchIndex++;
+		searchIndex++;//else pass to next tile
 	}
-	return NO_TILE;
+	return NO_TILE;//there is no tile in the specified column
 }
 
 BooleanType controlSong(){
-	if(SONG_SIZE <= songIndex) return FALSE;
-	addTile(songs[songIndex].column);
 	PIT_clear(PIT_1);
+	if(SONG_SIZE <= songIndex) return FALSE;//when song ended
+	addTile(songs[songIndex].column);//add next song tile
 	PIT_delay(PIT_1, SYSTEM_CLOCK, songs[songIndex++].delay);// delay until update screen
 	return TRUE;
 }
@@ -146,9 +149,6 @@ BooleanType addTile(Column column){
 		tilesFull = TRUE;//if the list is full set flags
 		tilesEmpty = FALSE;
 		return FALSE;//because the value wasn't saved
-	}
-	if(tilesEmpty){
-		songEnded = FALSE;
 	}
 	tiles[listSize].column = column;//add new tile to the List
 	tiles[listSize++].tileIndex = 0;
@@ -169,10 +169,10 @@ BooleanType removeTile(uint8 index){
 }
 
 BooleanType moveTiles(){
-	if(tilesEmpty){
+	if(tilesEmpty){//if the tiles are empty
 		PIT_clear(PIT_0);
-		UART_putString(UART_0, "\033[2J");
-		songEnded = TRUE;
+		UART_putString(UART_0, "\033[2J");//clear screen
+		songEnded = TRUE;//indicate the end of the song
 		return FALSE;
 	}
 	uint8 passTiles = 0;
@@ -234,6 +234,7 @@ BooleanType writeUI(){//write the interface
 	UART_putString(UART_0, "\033[34;25H");
 	UART_putChar(UART_0, INTERFACE_TILE);
 
+	//Print interface for the difficulty
 	UART_putString(UART_0, "\033[27;30H");
 	UART_putChar(UART_0, INTERFACE_TILE);
 	UART_putString(UART_0, "\033[29;30H");
@@ -246,4 +247,4 @@ BooleanType writeUI(){//write the interface
 	return TRUE;
 }
 
-BooleanType getSongEnded(){ return songEnded; }
+BooleanType getSongEnded(){ return songEnded; }// return the songEnded flag
