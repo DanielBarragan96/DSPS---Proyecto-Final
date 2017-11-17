@@ -11,26 +11,19 @@
  */
 #include "MK64F12.h"
 #include "GPIO.h"
+#include "Animation.h"
 
 static GPIO_interruptFlags_t GPIO_intrStatusFlag;
-/**flag created to be able to switch states of the motor*/
-static uint8 flag_c = FALSE;
-/**function to clear flag value*/
-void GPIO_clearFC()
-{
-	flag_c = FALSE;
-}
-/**returns the value of flag*/
-uint8 GPIO_getFC()
-{
-	return flag_c;
-}
 
 /**handler para la interruption del puerto c*/
 void PORTC_IRQHandler(){
-	flag_c = TRUE;
 	GPIO_intrStatusFlag.flagPortC = TRUE;
 	GPIO_clearInterrupt(GPIO_C);
+	if(TRUE == GPIO_readPIN(GPIO_C, BIT5)) addTile(COLUMN_1);
+	if(TRUE == GPIO_readPIN(GPIO_C, BIT7)) addTile(COLUMN_2);
+	if(TRUE == GPIO_readPIN(GPIO_C, BIT0)) addTile(COLUMN_3);
+	if(TRUE == GPIO_readPIN(GPIO_C, BIT9)) addTile(COLUMN_4);
+
 }
 
 /**handler para la interruption del puerto a*/
