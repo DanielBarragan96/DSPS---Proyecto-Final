@@ -25,16 +25,11 @@ int main(void)
 {
 	initMain();//initialize all configurations for using this practice
 
-	//initialize some tiles
-//	addTile(COLUMN_1);
-//	addTile(COLUMN_2);
-//	addTile(COLUMN_3);
-
 	for(;;) {	   
 
 		if (TRUE == PIT_getIntrStutus(PIT_0)) moveTiles();//update the Tiles position in screen
 
-		if (TRUE == PIT_getIntrStutus(PIT_1)) controlSong();
+		if (TRUE == PIT_getIntrStutus(PIT_1)) controlSong();//update current song tiles
 	}
 	return 0;
 }

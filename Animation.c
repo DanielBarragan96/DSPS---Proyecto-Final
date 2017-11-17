@@ -85,6 +85,7 @@ const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 		"\033[33;25H","\033[34;25H",
 };
 
+//This stores each song tile and the delay it needs until the system has to display the next tile
 const Song songs[SONG_SIZE] = {{COLUMN_1,1.0F},{COLUMN_2,4.0F},
 							   {COLUMN_3,0.5F},{COLUMN_4,8.0F},
 							   {COLUMN_3,4.0F},{COLUMN_2,1.0F}};
