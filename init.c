@@ -77,6 +77,7 @@ void initMain(){
 	PORTB->PCR[16] = PORT_PCR_MUX(3);
 	/**Configures the pin control register of pin16 in PortB as UART TX*/
 	PORTB->PCR[17] = PORT_PCR_MUX(3);
+
 	/**Configures UART 0 to transmit/receive at 11520 bauds with a 21 MHz of clock core*/
 	UART_init (UART_0,  60000000, BD_115200);
 	/**Enables the UART 0 interrupt*/
@@ -97,17 +98,9 @@ void initMain(){
 	/**Enables interrupts*/
 	EnableInterrupts;
 
-	//initialize the used PIT for controlling the motor PWM
-	PIT_clear(PIT_0);
-	PIT_delay(PIT_0, SYSTEM_CLOCK, 3.5F);// delay until next function value
-
-	//initialize the used PIT for controlling the motor PWM
-	PIT_clear(PIT_1);
-	PIT_delay(PIT_1, SYSTEM_CLOCK, 3.5F);// delay until next function value
-
 	//configure the UART display
 	UART_putString(UART_0, "\033[0;32;10m");
 	UART_putString(UART_0, "\033[2J");
 
-	writeUI();
+	printTTMainMenu();
 }

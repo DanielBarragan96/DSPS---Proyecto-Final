@@ -3,6 +3,7 @@
 #include "UART.h"
 #include "DataTypeDefinitions.h"
 #include "FIFO.h"
+#include "States.h"
 
 UART_MailBoxType UART0_MailBox = {0,0};
 BooleanType enterFlag = FALSE;
@@ -20,6 +21,8 @@ void UART0_RX_TX_IRQHandler(void){
 			enterFlag = FALSE;
 			push(UART0_MailBox.mailBox);//store the new key pressed in the FIFO
 		}
+		if(PLAY == getSystem()->currentStatus)
+			enterFlag = FALSE;
 		return;
 	}
 }

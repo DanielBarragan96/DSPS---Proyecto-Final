@@ -18,9 +18,9 @@
 
 /*! This data type is used for selecting the difficulty of the game*/
 typedef enum{
-	EASY = ANIMATION_SIZE - 7,
-	MEDIUM = ANIMATION_SIZE - 5,
-	HARD = ANIMATION_SIZE - 3
+	EASY = '1',
+	MEDIUM = '2',
+	HARD = '3'
 }Dificulty;
 /*! This data type is used for selecting the column of the Tile
  * and also the ASCII code to print for each column*/
@@ -102,5 +102,7 @@ BooleanType moveTiles();
  	 \return TRUE if there were no troubles.
  */
 BooleanType writeUI();
+
+Dificulty getGameDifficulty();
 
 #endif
