@@ -20,7 +20,10 @@
 typedef enum{
 	EASY = ANIMATION_SIZE - 7,
 	MEDIUM = ANIMATION_SIZE - 5,
-	HARD = ANIMATION_SIZE - 3
+	HARD = ANIMATION_SIZE - 3,
+	EASY_INPUT = '1',
+	MEDIUM_INPUT = '2',
+	HARD_INPUT = '3'
 }Dificulty;
 /*! This data type is used for selecting the column of the Tile
  * and also the ASCII code to print for each column*/
@@ -102,5 +105,22 @@ BooleanType moveTiles();
  	 \return TRUE if there were no troubles.
  */
 BooleanType writeUI();
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This function gets the game difficulty.
+ 	 \return gameDifficulty status.
+ */
+Dificulty getGameDifficulty();
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This function updates the gameDifficulty
+ 	 \param[in]  newDifficulty sets the gameDifficulty new value.
+ 	 \return TRUE if there were no troubles.
+ */
+BooleanType setDifficulty(Dificulty newDifficulty);
 
 #endif

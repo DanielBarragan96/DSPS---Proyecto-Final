@@ -27,9 +27,12 @@ int main(void)
 
 	for(;;) {	   
 
-		if (PIT_getIntrStutus(PIT_0)) moveTiles();//update the Tiles position in screen
+		if(getEnterFlag())	controlMenu();//When ENTER was pressed handle the input
 
-		if (PIT_getIntrStutus(PIT_1)) controlSong();//update current song tiles
+		if(PLAY == getSystem()->currentStatus){
+			if (PIT_getIntrStutus(PIT_0)) moveTiles();//update the Tiles position in screen
+			if (PIT_getIntrStutus(PIT_1)) controlSong();//update current song tiles
+		}
 	}
 	return 0;
 }

@@ -3,6 +3,8 @@
 #include "UART.h"
 #include "Animation.h"
 #include "PIT.h"
+#include "TeraTerm.h"
+#include "States.h"
 
 //commands to control the serial port of the first column
 const TeraTermCommand commandsFirstColumn[ANIMATION_SIZE] = {
@@ -42,7 +44,7 @@ const TeraTermCommand commandsSecondColumn[ANIMATION_SIZE] = {
 		"\033[27;15H","\033[28;15H",
 		"\033[29;15H","\033[30;15H",
 		"\033[31;15H","\033[32;15H",
-		"\033[33;15H","\033[34;10H",
+		"\033[33;15H","\033[34;15H",
 };
 //commands to control the serial port of the third column
 const TeraTermCommand commandsThirdColumn[ANIMATION_SIZE] = {
@@ -86,11 +88,11 @@ const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 };
 
 //This stores each song tile and the delay it needs until the system has to display the next tile
-const Song songs[SONG_SIZE] = {{COLUMN_2,4.5F},{COLUMN_2,3.5F},
-							   {COLUMN_2,3.5F},{COLUMN_2,3.5F},
-							   {COLUMN_1,3.5F},{COLUMN_1,3.5F},
-							   {COLUMN_1,3.5F},{COLUMN_1,3.5F},
-							   {COLUMN_1,4.5F},{COLUMN_2,3.5F}};
+const Song songs[SONG_SIZE] = {{COLUMN_2,4.5F},{COLUMN_1,3.5F},
+							   {COLUMN_3,3.5F},{COLUMN_2,3.5F},
+							   {COLUMN_1,3.5F},{COLUMN_4,3.5F},
+							   {COLUMN_1,3.5F},{COLUMN_4,3.5F},
+							   {COLUMN_1,4.5F},{COLUMN_3,3.5F}};
 
 //array of stored tiles
 static Tiles tiles[TILES_SIZE];
@@ -193,6 +195,15 @@ BooleanType moveTiles(){
 		PIT_clear(PIT_0);
 		UART_putString(UART_0, "\033[2J");//clear screen
 		songEnded = TRUE;//indicate the end of the song
+		songIndex = 0;
+		tilesEmpty = FALSE;
+
+		//TODO change to check in the HighScores
+		playerScore = 0;
+		songScore = 0;
+		getSystem()->currentStatus = PRINCIPAL;
+		getSystem()->stateIndex = 0;
+		printTTMainMenu();
 		return FALSE;
 	}
 	uint8 passTiles = 0;
@@ -237,7 +248,12 @@ BooleanType moveTiles(){
 		}
 	}
 
-	UART_putString(UART_0, commandsFourthColumn[ANIMATION_SIZE-1]);//move the cursor for better view
+	if(EASY == gameDificulty)//move the cursor for better view
+		UART_putString(UART_0, "\033[27;30H");
+	else if(MEDIUM == gameDificulty)//move the cursor for better view
+		UART_putString(UART_0, "\033[29;30H");
+	else if(HARD == gameDificulty)//move the cursor for better view
+		UART_putString(UART_0, "\033[31;30H");
 	PIT_clear(PIT_0);
 	PIT_delay(PIT_0, SYSTEM_CLOCK, 1.0F);// delay until update screen
 
@@ -268,3 +284,10 @@ BooleanType writeUI(){//write the interface
 }
 
 BooleanType getSongEnded(){ return songEnded; }// return the songEnded flag
+
+Dificulty getGameDifficulty(){ return gameDificulty; }
+
+BooleanType setDifficulty(Dificulty newDifficulty){
+	gameDificulty = newDifficulty;
+	return TRUE;
+}
