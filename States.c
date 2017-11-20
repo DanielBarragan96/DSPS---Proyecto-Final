@@ -60,7 +60,3 @@ BooleanType controlMenu(){
 
 SystemControl* getSystem(){ return &currentSystem; }//return currentSstem direction
 
-BooleanType pauseExcecution(){
-	currentSystem.stateIndex = STATE_MACHINE_SIZE;
-	return TRUE;
-}

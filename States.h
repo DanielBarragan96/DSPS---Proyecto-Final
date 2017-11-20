@@ -88,39 +88,5 @@ BooleanType controlMenu();
  	 \return currentSystem direction
  */
 SystemControl* getSystem();
-/********************************************************************************************/
-/********************************************************************************************/
-/********************************************************************************************/
-/*!
- 	 \brief	 This function returns the value of the FIFOIndex.
- 	 \return TRUE if there were no troubles
- */
-BooleanType updateSystemTimeDate();
-/********************************************************************************************/
-/********************************************************************************************/
-/********************************************************************************************/
-/*!
- 	 \brief	 This function updates the system address.
- 	 \param[in]  newAddressH high part of the memory.
- 	 \param[in]  newAddressL high part of the memory.
- 	 \return TRUE if there were no troubles
- */
-BooleanType setSystemAddress();
-/********************************************************************************************/
-/********************************************************************************************/
-/********************************************************************************************/
-/*!
- 	 \brief	 This function pauses the excecution of TeraTerm.
- 	 \return TRUE if there were no troubles
- */
-BooleanType pauseExcecution();
-/********************************************************************************************/
-/********************************************************************************************/
-/********************************************************************************************/
-/*!
- 	 \brief	 This function toggle hourFormat.
- 	 \return TRUE if there were no troubles
- */
-BooleanType toggleHourFormat();
 
 #endif /*STATES_H_*/

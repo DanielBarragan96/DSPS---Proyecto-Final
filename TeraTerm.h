@@ -17,7 +17,7 @@
 typedef enum{
 	ERROR,
 	GOOD
-}TERA_TERM_STATUS;
+}TeraTermStatus;
 
 
 /********************************************************************************************/
@@ -27,14 +27,39 @@ typedef enum{
  	 \brief	 It sends the MainMenu through the serial port.
  	 \return GOOD if there were no troubles
  */
-uint8 printTTMainMenu();
-
-uint8 printTTDifficulty_1();
-
-uint8 printTTDifficulty_2();
-
-uint8 printTTRecords();
-
+TeraTermStatus printTTMainMenu();
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 It sends the Difficulty first state menu through the serial port.
+ 	 \return GOOD if there were no troubles
+ */
+TeraTermStatus printTTDifficulty_1();
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 It sends the Difficulty second state menu through the serial port.
+ 	 \return GOOD if there were no troubles
+ */
+TeraTermStatus printTTDifficulty_2();
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 It sends the Records menu through the serial port.
+ 	 \return GOOD if there were no troubles
+ */
+TeraTermStatus printTTRecords();
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This function is used for preparing the UART screen trough the serial port to
+ 	 init the game.
+ 	 \return GOOD if there were no troubles
+ */
 BooleanType clearScreenPlay();
 
 

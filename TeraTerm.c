@@ -10,10 +10,7 @@
 #include "Animation.h"
 #include "PIT.h"
 
-sint8 asciiVal[] = {0,0};
-sint8 memArray[FIFO_LENGHT];
-
-uint8 printTTMainMenu(){
+TeraTermStatus printTTMainMenu(){
 
 	/**The following sentences send strings to PC using the UART_putString function. Also, the string
 	 * is coded with terminal code*/
@@ -38,7 +35,7 @@ uint8 printTTMainMenu(){
 	return GOOD;
 }
 
-uint8 printTTDifficulty_1(){
+TeraTermStatus printTTDifficulty_1(){
 	/**The following sentences send strings to PC using the UART_putString function. Also, the string
 	 * is coded with terminal code*/
 	/** VT100 command for text in red and background in cyan*/
@@ -63,37 +60,33 @@ uint8 printTTDifficulty_1(){
 	return GOOD;
 }
 
-uint8 printTTDifficulty_2(){
-	/**The following sentences send strings to PC using the UART_putString function. Also, the string
-	 * is coded with terminal code*/
-	/** VT100 command for text in red and background in cyan*/
-	UART_putString(UART_0,"\033[0;32;10m");
-	/*VT100 command for clearing the screen*/
-	UART_putString(UART_0,"\033[2J");
+TeraTermStatus printTTDifficulty_2(){
 	/* VT100 command for positioning the cursor in x and y position*/
-	UART_putString(UART_0,"\033[3;10H");
+	UART_putString(UART_0,"\033[8;10H");
 	UART_putString(UART_0, "La dificultad es: \r");
-	UART_putString(UART_0,"\033[4;10H");
+	UART_putString(UART_0,"\033[9;10H");
 	Dificulty gameDiffuculty = (Dificulty) *getFIFO();
-	if(EASY == gameDiffuculty){
+	if(EASY_INPUT== gameDiffuculty){
 		UART_putString(UART_0, "Easy");
 		setDifficulty(EASY);
 	}
-	else if(MEDIUM == gameDiffuculty){
+	else if(MEDIUM_INPUT == gameDiffuculty){
 		UART_putString(UART_0, "Medium");
 		setDifficulty(MEDIUM);
 	}
-	else if(HARD == gameDiffuculty){
+	else if(HARD_INPUT == gameDiffuculty){
 		UART_putString(UART_0, "Hard");
 		setDifficulty(HARD);
 	}
+	else
+		UART_putString(UART_0, "ERROR: la dificultad no ha sido cambiada.");
 	/* VT100 command for positioning the cursor in x and y position*/
-	UART_putString(UART_0,"\033[5;10H");
+	UART_putString(UART_0,"\033[10;10H");
 
 	return GOOD;
 }
 
-uint8 printTTRecords(){
+TeraTermStatus printTTRecords(){
 	/**The following sentences send strings to PC using the UART_putString function. Also, the string
 	 * is coded with terminal code*/
 	/** VT100 command for text in red and background in cyan*/
