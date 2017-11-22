@@ -5,6 +5,7 @@
 #include "PIT.h"
 #include "TeraTerm.h"
 #include "States.h"
+#include "HighScores.h"
 
 //commands to control the serial port of the first column
 const TeraTermCommand commandsFirstColumn[ANIMATION_SIZE] = {
@@ -199,6 +200,7 @@ BooleanType moveTiles(){
 		tilesEmpty = FALSE;
 
 		//TODO change to check in the HighScores
+		updateScores(playerScore);
 		playerScore = 0;
 		songScore = 0;
 		getSystem()->currentStatus = PRINCIPAL;
@@ -255,7 +257,7 @@ BooleanType moveTiles(){
 	else if(HARD == gameDificulty)//move the cursor for better view
 		UART_putString(UART_0, "\033[31;30H");
 	PIT_clear(PIT_0);
-	PIT_delay(PIT_0, SYSTEM_CLOCK, 1.0F);// delay until update screen
+	PIT_delay(PIT_0, SYSTEM_CLOCK, 0.2F);// delay until update screen
 
 	return TRUE;
 }
