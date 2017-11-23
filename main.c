@@ -25,7 +25,8 @@
 int main(void)
 {
 	initMain();//initialize all configurations for using this practice
-	writeScores();
+	writeScores();//reset scores
+
 	for(;;) {
 
 		if(getEnterFlag())	controlMenu();//When ENTER was pressed handle the input
