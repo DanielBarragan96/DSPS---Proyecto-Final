@@ -17,6 +17,7 @@
 #include "PCF8563.h"
 #include "TeraTerm.h"
 #include "Animation.h"
+#include "MEM24LC256.h"
 
 #define CLK_FREQ_HZ 50000000  /* CLKIN0 frequency */
 #define SLOW_IRC_FREQ 32768	/*This is the approximate value for the slow irc*/
