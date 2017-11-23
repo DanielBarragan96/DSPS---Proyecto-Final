@@ -20,12 +20,14 @@
 #include "PCF8563.h"
 #include "TeraTerm.h"
 #include "Animation.h"
+#include "HighScores.h"
 
 int main(void)
 {
 	initMain();//initialize all configurations for using this practice
+	writeScores();//reset scores
 
-	for(;;) {	   
+	for(;;) {
 
 		if(getEnterFlag())	controlMenu();//When ENTER was pressed handle the input
 

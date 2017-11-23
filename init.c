@@ -17,6 +17,7 @@
 #include "PCF8563.h"
 #include "TeraTerm.h"
 #include "Animation.h"
+#include "MEM24LC256.h"
 
 #define CLK_FREQ_HZ 50000000  /* CLKIN0 frequency */
 #define SLOW_IRC_FREQ 32768	/*This is the approximate value for the slow irc*/
@@ -59,12 +60,18 @@ void initMain(){
    GPIO_pinControlRegisterType pinControlRegisterInputInterruptFallingEdge = GPIO_MUX1|GPIO_PE|INTR_FALLING_EDGE;
    GPIO_pinControlRegisterType pinControlRegisterInputInterruptRisingEdge = GPIO_MUX1|GPIO_PE|INTR_RISING_EDGE;
 
-   /**Configure the characteristics in the GPIOs*/
-	//Buttons
-	GPIO_pinControlRegister(GPIO_C,BIT5,&pinControlRegisterInputInterruptFallingEdge);
-	GPIO_pinControlRegister(GPIO_C,BIT7,&pinControlRegisterInputInterruptFallingEdge);
-	GPIO_pinControlRegister(GPIO_C,BIT0,&pinControlRegisterInputInterruptFallingEdge);
-	GPIO_pinControlRegister(GPIO_C,BIT9,&pinControlRegisterInputInterruptFallingEdge);
+//   /**Configure the characteristics in the GPIOs*/
+//	//Buttons
+//	GPIO_pinControlRegister(GPIO_C,BIT5,&pinControlRegisterInputInterruptFallingEdge);
+//	GPIO_pinControlRegister(GPIO_C,BIT7,&pinControlRegisterInputInterruptFallingEdge);
+//	GPIO_pinControlRegister(GPIO_C,BIT0,&pinControlRegisterInputInterruptFallingEdge);
+//	GPIO_pinControlRegister(GPIO_C,BIT9,&pinControlRegisterInputInterruptFallingEdge);
+
+
+  	GPIO_pinControlRegister(GPIO_C,BIT5,&pinControlRegisterInputInterruptRisingEdge);
+  	GPIO_pinControlRegister(GPIO_C,BIT7,&pinControlRegisterInputInterruptRisingEdge);
+  	GPIO_pinControlRegister(GPIO_C,BIT0,&pinControlRegisterInputInterruptRisingEdge);
+  	GPIO_pinControlRegister(GPIO_C,BIT9,&pinControlRegisterInputInterruptRisingEdge);
 
 	/**Configure Port Pins as input/output*/
 	//Buttons
