@@ -14,7 +14,6 @@
 #include "stdio.h"
 #include "MCG.h"
 #include "DAC_Drivers.h"
-#include <Math.h>
 
 #define CLK_FREQ_HZ 50000000  /* CLKIN0 frequency */
 #define SLOW_IRC_FREQ 32768	/*This is the approximate value for the slow irc*/
@@ -50,16 +49,18 @@ int main(void)
 
 
 	modeMCG = what_mcg_mode();
-	ADC_init();
+	init_ADC0();
 	init_DAC0();
-	FlexTimer3_Init(32000);
+	FlexTimer3_OverFlow_Init(32000);
 
     ufloat32 Note_Type = 0;
     ufloat32 Note_Prom = 0;
     uint8 Note_Out = 0;
-
+    ufloat32 max = 0;
+    ufloat32 min = 2000;
+    ufloat32 med = 0;
     /*Arreglo en el que se almacenarán los valores del ADC*/
-    float VALUES[44000] ={0};
+    float VALUES[32000] ={0};
 
     /*Indice que indicará la posición del arreglo donde se guarda un valor, por lo tanto, uno anterior será el más nuevo*/
     uint32 Index = 0;
@@ -72,16 +73,26 @@ int main(void)
 			if(TRUE == get_FrecuencyFlag())
 			{
 				Note_Type -= VALUES[Index];
-				VALUES[Index] = ( float )( ADC_Values() / 4096.0);
+				med = VALUES[Index];
+				if(med > max)
+				{
+					max = med;
+				}
+				if((med < min) && (med > 0))
+				{
+					min = med;
+				}
+				VALUES[Index] = ( float )( (ADC0_result()) / 4096.0);
+//				TODO agregar if values<0 values = 0
 				salida =( 4096*VALUES[Index]);
 				DAC0_output(salida);
 				Note_Type += VALUES[Index];
-				Index = (Index < 43999 ) ? Index+1 : 0;
+				Index = (Index < 31999 ) ? Index+1 : 0;
 				clear_FrecuencyFlag();
 			}
-				if(Index == 43999)
+				if(Index == 31999)
 				{
-					Note_Prom = (Note_Type/44000);
+					Note_Prom = (Note_Type/32000);
 					if(Note_Prom < ABAJO)
 					{
 						Note_Out = 2;//TODO Madre generada = abajo
