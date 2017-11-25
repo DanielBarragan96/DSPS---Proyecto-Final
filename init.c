@@ -18,6 +18,9 @@
 #include "TeraTerm.h"
 #include "Animation.h"
 #include "MEM24LC256.h"
+#include "FlexTimer.h"
+#include "ADC.h"
+#include "DAC_Drivers.h"
 
 #define CLK_FREQ_HZ 50000000  /* CLKIN0 frequency */
 #define SLOW_IRC_FREQ 32768	/*This is the approximate value for the slow irc*/
@@ -47,8 +50,12 @@ void initMain(){
 		      mcg_clk_hz = pll_init(CLK_FREQ_HZ, LOW_POWER, EXTERNAL_CLOCK, PLL0_PRDIV, PLL0_VDIV, PLL_ENABLE);
 		#endif
 
-		   modeMCG = what_mcg_mode();
-		   I2C_init(I2C_0, 60000000, 100000);
+	   modeMCG = what_mcg_mode();
+	   I2C_init(I2C_0, 60000000, 100000);
+
+	   ADC_init();
+	   init_DAC0();
+	   FlexTimer3_Init(32000);
 
 	/**Enables the clock of PortB in order to configures TX and RX of UART peripheral*/
 	SIM->SCGC5 = SIM_SCGC5_PORTB_MASK;
@@ -101,6 +108,8 @@ void initMain(){
 	NVIC_enableInterruptAndPriotity(PIT_CH1_IRQ, PRIORITY_4);
 	/**Enables and sets a particular interrupt and its priority*/
 	NVIC_enableInterruptAndPriotity(PORTC_IRQ,PRIORITY_3);
+
+    NVIC_enableInterruptAndPriotity(FTM3_IRQ, PRIORITY_4);
 
 	/**Enables interrupts*/
 	EnableInterrupts;

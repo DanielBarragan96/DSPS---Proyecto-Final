@@ -13,7 +13,7 @@
 //To select low or normal power
 typedef enum{
 	NORMAL_POWER,
-	LOW_POWER
+	LOWER_POWER
 }ADC_CFG1_DLPC;
 
 //To select clk mode

@@ -117,5 +117,8 @@ void Frequency_Calc();
  */
 void FlexTimer_Init();
 void FlexTimer3_Init();
+BooleanType get_FrecuencyFlag();
+void clear_FrecuencyFlag();
+void FTM3_IRQHandler();
 
 #endif /* FLEXTIMER_H_ */

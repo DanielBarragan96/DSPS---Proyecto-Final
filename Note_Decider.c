@@ -5,54 +5,21 @@
  *      Author: ALEX
  */
 
-#include "DataTypeDefinitions.h"
-#include "GPIO.h"
-#include "ADC.h"
-#include "FlexTimer.h"
-#include "NVIC.h"
-#include "MK64F12.h"
-#include "stdio.h"
-#include "MCG.h"
-#include "DAC_Drivers.h"
+#include "Note_Decider.h"
 
-#define CLK_FREQ_HZ 50000000  /* CLKIN0 frequency */
-#define SLOW_IRC_FREQ 32768	/*This is the approximate value for the slow irc*/
-#define FAST_IRC_FREQ 4000000 /*This is the approximate value for the fast irc*/
-#define EXTERNAL_CLOCK 0 /*It defines an external clock*/
-#define PLL_ENABLE 1 /**PLL is enabled*/
-#define PLL_DISABLE 0 /**PLL is disabled*/
-#define CRYSTAL_OSC 1  /*It defines an crystal oscillator*/
-#define LOW_POWER 0     /* Set the oscillator for low power mode */
-#define SLOW_IRC 0 		/* Set the slow IRC */
-#define CLK0_TYPE 0     /* Crystal or canned oscillator clock input */
-#define PLL0_PRDIV 25    /* PLL predivider value */
-#define PLL0_VDIV 30    /* PLL multiplier value*/
 #define ABAJO .25
 #define IZQUIERDA .50
 #define DERECHA .75
 
-int main(void)
+//TODO Idea to make after x number of the same note, go to another note directly
+//TODO Idea to make after x number of notes make it last longer/send another note directly after.
+//TODO Idea to make the note out frequency vary.
+//TODO Pointfunct of addTile on notedecider.
+//TODO easy medium and hard Music Processor.
+//TODO
+
+void Music_Processor()
 {
-
-	int mcg_clk_hz;
-	unsigned char modeMCG = 0;
-
-
-	#ifndef PLL_DIRECT_INIT
-	    mcg_clk_hz = fei_fbi(SLOW_IRC_FREQ,SLOW_IRC);// 64 Hz ---> 32768
-	    mcg_clk_hz = fbi_fbe(CLK_FREQ_HZ,LOW_POWER,EXTERNAL_CLOCK); // 97.656KHz ---> 50000000
-	    mcg_clk_hz = fbe_pbe(CLK_FREQ_HZ,PLL0_PRDIV,PLL0_VDIV);	// 97.656KHz ---> 50000000 and PLL is configured to generate 60000000
-	    mcg_clk_hz =  pbe_pee(CLK_FREQ_HZ);// 117.18 KHz ---> 60000000
-	#else
-	       mcg_clk_hz = pll_init(CLK_FREQ_HZ, LOW_POWER, EXTERNAL_CLOCK, PLL0_PRDIV, PLL0_VDIV, PLL_ENABLE);
-	#endif
-
-
-	modeMCG = what_mcg_mode();
-	init_ADC0();
-	init_DAC0();
-	FlexTimer3_OverFlow_Init(32000);
-
     ufloat32 Note_Type = 0;
     ufloat32 Note_Prom = 0;
     uint8 Note_Out = 0;
@@ -67,7 +34,6 @@ int main(void)
 
     float salida = 0;
 
-    NVIC_enableInterruptAndPriotity(FTM3_IRQ, PRIORITY_4);
 	while(1)
 	{
 			if(TRUE == get_FrecuencyFlag())
@@ -82,7 +48,7 @@ int main(void)
 				{
 					min = med;
 				}
-				VALUES[Index] = ( float )( (ADC0_result()) / 4096.0);
+				VALUES[Index] = ( float )( ADC_Values() / 4096.0);
 //				TODO agregar if values<0 values = 0
 				salida =( 4096*VALUES[Index]);
 				DAC0_output(salida);
@@ -95,16 +61,20 @@ int main(void)
 					Note_Prom = (Note_Type/32000);
 					if(Note_Prom < ABAJO)
 					{
-						Note_Out = 2;//TODO Madre generada = abajo
+						addTile(COLUMN_3);
+						Note_Out = 2;
 
 					}else if(Note_Prom < IZQUIERDA && Note_Type > ABAJO)
 					{
-						Note_Out = 0;//TODO Madre generada = izq
+						addTile(COLUMN_1);
+						Note_Out = 0;
 					}else if(Note_Prom < DERECHA && Note_Type > IZQUIERDA)
 					{
-						Note_Out = 3;//TODO Madre generada = derecha
+						addTile(COLUMN_4);
+						Note_Out = 3;
 					}else
-						Note_Out = 1;//TODO Madre generada = arriba
+						addTile(COLUMN_2);
+						Note_Out = 1;
 				}
 			}
 	return 0;
