@@ -22,21 +22,23 @@
 #include "Animation.h"
 #include "HighScores.h"
 #include "Note_Decider.h"
+//TODO quitar controlsong maybe
 
 int main(void)
 {
 	initMain();//initialize all configurations for using this practice
 //	writeScores();//reset scores
+	Difficulty_NoteRate(EASY);
 
 	for(;;) {
-//
-//		if(getEnterFlag())	controlMenu();//When ENTER was pressed handle the input
-//
-//		if(PLAY == getSystem()->currentStatus){
-//			if (PIT_getIntrStutus(PIT_0)) moveTiles();//update the Tiles position in screen
-//			if (PIT_getIntrStutus(PIT_1)) controlSong();//update current song tiles
-//		}
-		Music_Processor();
+
+		if(getEnterFlag())	controlMenu();//When ENTER was pressed handle the input
+
+		if(PLAY == getSystem()->currentStatus){
+			if (PIT_getIntrStutus(PIT_0)) moveTiles();//update the Tiles position in screen
+			if (PIT_getIntrStutus(PIT_1)) controlSong();//update current song tiles
+			Music_Processor();
+		}
 	}
 	return 0;
 }

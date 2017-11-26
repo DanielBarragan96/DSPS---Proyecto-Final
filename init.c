@@ -55,7 +55,7 @@ void initMain(){
 
 	   ADC_init();
 	   init_DAC0();
-	   FlexTimer3_Init(32000);
+	   FlexTimer3_Init(29000);
 
 	/**Enables the clock of PortB in order to configures TX and RX of UART peripheral*/
 	SIM->SCGC5 = SIM_SCGC5_PORTB_MASK;

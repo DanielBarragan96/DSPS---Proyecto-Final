@@ -18,6 +18,14 @@
 #include "DAC_Drivers.h"
 #include "Animation.h"
 
+#define ABAJO .25
+#define IZQUIERDA .50
+#define DERECHA .75
+#define VALUE_DIVIDER 4096.0
+
+uint32 Get_Fs();
+void Set_Fs(uint32 rate);
+void Difficulty_NoteRate(Dificulty difficulty);
 void Music_Processor();
 
 #endif /* NOTE_DECIDER_H_ */
