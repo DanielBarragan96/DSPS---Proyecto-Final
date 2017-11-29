@@ -16,7 +16,7 @@ TeraTermStatus printTTMainMenu(){
 
 	/**The following sentences send strings to PC using the UART_putString function. Also, the string
 	 * is coded with terminal code*/
-	/** VT100 command for text in red and background in cyan*/
+	/** VT100 command for text in green and background in black*/
 	UART_putString(UART_0,"\033[0;32;10m");
 	/*VT100 command for clearing the screen*/
 	UART_putString(UART_0,"\033[2J");
@@ -40,22 +40,34 @@ TeraTermStatus printTTMainMenu(){
 TeraTermStatus printTTDifficulty_1(){
 	/**The following sentences send strings to PC using the UART_putString function. Also, the string
 	 * is coded with terminal code*/
-	/** VT100 command for text in red and background in cyan*/
+	/** VT100 command for text in green and background in black*/
 	UART_putString(UART_0,"\033[0;32;10m");
 	/*VT100 command for clearing the screen*/
 	UART_putString(UART_0,"\033[2J");
 	/* VT100 command for positioning the cursor in x and y position*/
 	UART_putString(UART_0,"\033[3;10H");
 	UART_putString(UART_0, "Elegir dificultad del juego: \r Facil = 1 \r Mediana = 2 \r Dificil = 3 \r");
+
+	/** VT100 command for text in blue and background in black*/
+	UART_putString(UART_0,"\033[0;49;34m");
 	/* VT100 command for positioning the cursor in x and y position*/
 	UART_putString(UART_0,"\033[4;10H");
 	UART_putString(UART_0, "Facil = 1 \r");
+
+	/** VT100 command for text in yellow and background in black*/
+	UART_putString(UART_0,"\033[0;49;33m");
 	/* VT100 command for positioning the cursor in x and y position*/
 	UART_putString(UART_0,"\033[5;10H");
 	UART_putString(UART_0, "Mediana = 2 \r");
+
+	/** VT100 command for text in red and background in black*/
+	UART_putString(UART_0,"\033[0;49;31m");
 	/* VT100 command for positioning the cursor in x and y position*/
 	UART_putString(UART_0,"\033[6;10H");
 	UART_putString(UART_0, "Dificil = 3 \r");
+
+	/** VT100 command for text in green and background in black*/
+	UART_putString(UART_0,"\033[0;32;10m");
 	/* VT100 command for positioning the cursor in x and y position*/
 	UART_putString(UART_0,"\033[7;10H");
 
@@ -69,15 +81,21 @@ TeraTermStatus printTTDifficulty_2(){
 	UART_putString(UART_0,"\033[9;10H");
 	Dificulty gameDiffuculty = (Dificulty) *getFIFO();
 	if(EASY_INPUT== gameDiffuculty){
-		UART_putString(UART_0, "Easy");
+		/** VT100 command for text in blue and background in black*/
+		UART_putString(UART_0,"\033[0;49;34m");
+		UART_putString(UART_0, "Facil");
 		setDifficulty(EASY);
 	}
 	else if(MEDIUM_INPUT == gameDiffuculty){
-		UART_putString(UART_0, "Medium");
+		/** VT100 command for text in yellow and background in black*/
+		UART_putString(UART_0,"\033[0;49;33m");
+		UART_putString(UART_0, "Mediana");
 		setDifficulty(MEDIUM);
 	}
 	else if(HARD_INPUT == gameDiffuculty){
-		UART_putString(UART_0, "Hard");
+		/** VT100 command for text in red and background in black*/
+		UART_putString(UART_0,"\033[0;49;31m");
+		UART_putString(UART_0, "Dificil");
 		setDifficulty(HARD);
 	}
 	else
@@ -91,7 +109,7 @@ TeraTermStatus printTTDifficulty_2(){
 TeraTermStatus printTTRecords_1(){
 	/**The following sentences send strings to PC using the UART_putString function. Also, the string
 	 * is coded with terminal code*/
-	/** VT100 command for text in red and background in cyan*/
+	/** VT100 command for text in green and background in black*/
 	UART_putString(UART_0,"\033[0;32;10m");
 	/*VT100 command for clearing the screen*/
 	UART_putString(UART_0,"\033[2J");
@@ -141,7 +159,7 @@ TeraTermStatus printTTRecords_1(){
 TeraTermStatus printTTRecords_2(){
 	/**The following sentences send strings to PC using the UART_putString function. Also, the string
 	 * is coded with terminal code*/
-	/** VT100 command for text in red and background in cyan*/
+	/** VT100 command for text in green and background in black*/
 	UART_putString(UART_0,"\033[0;32;10m");
 	/*VT100 command for clearing the screen*/
 	UART_putString(UART_0,"\033[2J");

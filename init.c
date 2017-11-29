@@ -98,9 +98,5 @@ void initMain(){
 	/**Enables interrupts*/
 	EnableInterrupts;
 
-	//configure the UART display
-	UART_putString(UART_0, "\033[0;32;10m");
-	UART_putString(UART_0, "\033[2J");
-
 	printTTMainMenu();
 }
