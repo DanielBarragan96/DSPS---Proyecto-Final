@@ -16,7 +16,7 @@ const StateType FSM_Moore[] =
 			{&printTTMainMenu,&controlMenu,&noFunction},
 			{&clearScreenPlay,&noFunction,&noFunction},
 			{&printTTDifficulty_1,&printTTDifficulty_2,&noFunction},
-			{&printTTRecords,&noFunction,&noFunction}
+			{&printTTRecords_1,&printTTRecords_2,noFunction}
 	};
 //This structure handles the current system status
 SystemControl currentSystem = {PRINCIPAL,0};

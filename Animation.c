@@ -219,6 +219,8 @@ BooleanType moveTiles(){
 				case COLUMN_1:{
 					UART_putString(UART_0, commandsFirstColumn[tiles[passTiles].tileIndex++]);
 					UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
+					/** VT100 command for text in red and background in black*/
+					UART_putString(UART_0,"\033[0;49;31m");
 					UART_putString(UART_0, commandsFirstColumn[tiles[passTiles++].tileIndex]);
 					UART_putChar(UART_0, COLUMN_1);//Update tile position
 					break;
@@ -226,6 +228,8 @@ BooleanType moveTiles(){
 				case COLUMN_2:{
 					UART_putString(UART_0, commandsSecondColumn[tiles[passTiles].tileIndex++]);
 					UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
+					/** VT100 command for text in yellow and background in black*/
+					UART_putString(UART_0,"\033[0;49;33m");
 					UART_putString(UART_0, commandsSecondColumn[tiles[passTiles++].tileIndex]);
 					UART_putChar(UART_0, COLUMN_2);//Update tile position
 					break;
@@ -233,6 +237,8 @@ BooleanType moveTiles(){
 				case COLUMN_3:{
 					UART_putString(UART_0, commandsThirdColumn[tiles[passTiles].tileIndex++]);
 					UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
+					/** VT100 command for text in blue and background in black*/
+						UART_putString(UART_0,"\033[0;49;34m");
 					UART_putString(UART_0, commandsThirdColumn[tiles[passTiles++].tileIndex]);
 					UART_putChar(UART_0, COLUMN_3);//Update tile position
 					break;
@@ -240,6 +246,8 @@ BooleanType moveTiles(){
 				case COLUMN_4:{
 					UART_putString(UART_0, commandsFourthColumn[tiles[passTiles].tileIndex++]);
 					UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
+					/** VT100 command for text in green and background in black*/
+					UART_putString(UART_0,"\033[0;32;10m");
 					UART_putString(UART_0, commandsFourthColumn[tiles[passTiles++].tileIndex]);
 					UART_putChar(UART_0, COLUMN_4);//Update tile position
 					break;
@@ -257,22 +265,35 @@ BooleanType moveTiles(){
 	else if(HARD == gameDificulty)//move the cursor for better view
 		UART_putString(UART_0, "\033[31;30H");
 	PIT_clear(PIT_0);
-	PIT_delay(PIT_0, SYSTEM_CLOCK, 0.2F);// delay until update screen
+	PIT_delay(PIT_0, SYSTEM_CLOCK, 1.0F);// delay until update screen
 
 	return TRUE;
 }
 
 BooleanType writeUI(){//write the interface
+	/** VT100 command for text in red and background in black*/
+	UART_putString(UART_0,"\033[0;49;31m");
 	UART_putString(UART_0, "\033[34;10H");
 	UART_putChar(UART_0, INTERFACE_TILE);
+
+	/** VT100 command for text in yellow and background in black*/
+	UART_putString(UART_0,"\033[0;49;33m");
 	UART_putString(UART_0, "\033[34;15H");
 	UART_putChar(UART_0, INTERFACE_TILE);
+
+	/** VT100 command for text in yellow and background in black*/
+	UART_putString(UART_0,"\033[0;49;34m");
 	UART_putString(UART_0, "\033[34;20H");
 	UART_putChar(UART_0, INTERFACE_TILE);
+
+	/** VT100 command for text in yellow and background in black*/
+	UART_putString(UART_0,"\033[0;49;32m");
 	UART_putString(UART_0, "\033[34;25H");
 	UART_putChar(UART_0, INTERFACE_TILE);
 
 	//Print interface for the difficulty
+	/** VT100 command for text in white and background in black*/
+	UART_putString(UART_0,"\033[0;49;37m");
 	UART_putString(UART_0, "\033[27;30H");
 	UART_putChar(UART_0, INTERFACE_TILE);
 	UART_putString(UART_0, "\033[29;30H");
@@ -287,9 +308,9 @@ BooleanType writeUI(){//write the interface
 
 BooleanType getSongEnded(){ return songEnded; }// return the songEnded flag
 
-Dificulty getGameDifficulty(){ return gameDificulty; }
+Dificulty getGameDifficulty(){ return gameDificulty; }//return gameDificulty
 
 BooleanType setDifficulty(Dificulty newDifficulty){
-	gameDificulty = newDifficulty;
+	gameDificulty = newDifficulty;//change gameDifficulty
 	return TRUE;
 }

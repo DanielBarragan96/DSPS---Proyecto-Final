@@ -25,7 +25,6 @@
 int main(void)
 {
 	initMain();//initialize all configurations for using this practice
-	writeScores();//reset scores
 
 	for(;;) {
 

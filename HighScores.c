@@ -10,6 +10,8 @@
 
 //this array stores the high scoress from the game, it starts and can be used for restarting the memory high scores
 static uint8 actualScores[SCORES_ARRAY_SIZE] = {'0','0','0','0','0','0','0','0','0','0'};
+//this array is used for restarting the memory high scores
+static uint8 restartScores[SCORES_ARRAY_SIZE] = {'0','0','0','0','0','0','0','0','0','0'};
 
 uint8 updateScores(uint8 newScore){
 	newScore += 48;//change value to ASCII
@@ -34,7 +36,7 @@ uint8 updateScores(uint8 newScore){
 		}
 		actualScores[++index] = newScore;//add new high score
 	}
-	writeScores();//update scores in memory
+	//writeScores();//update scores in memory
 	return (index+1);//Position of the actual score
 }
 
@@ -43,7 +45,8 @@ BooleanType readScores(){//read scores from external memory using I2C
 	return TRUE;
 }
 
-BooleanType writeScores(){//write scores to external memory using I2C
-	MEM24LC256_setData(RECORD_MEM_1, (uint8*) &actualScores[RECORD_MEM_1]);
+BooleanType resetScores(){//write scores to external memory using I2C
+	MEM24LC256_setData(RECORD_MEM_1, (uint8*) &restartScores[RECORD_MEM_1]);//restart memory scores
+	readScores();//update array scores values
 	return TRUE;
 }
