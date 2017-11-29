@@ -27,6 +27,8 @@
 //this defines the size of the score places
 #define SCORES_ARRAY_SIZE 10
 #define SCORES_BYTES 10
+//this value indicates that the user wants to reset the high scores
+#define RESET_HIGH_SCORES '1'
 
 /*! This data type stores the score direction with a pointer*/
 typedef struct{
@@ -54,9 +56,9 @@ BooleanType readScores();
 /********************************************************************************************/
 /********************************************************************************************/
 /*!
- 	 \brief	 This function writes the actualScores to the memory.
+ 	 \brief	 This function resets to zero the actualScores to the memory.
  	 \return TRUE if there was no problem storing the values.
  */
-BooleanType writeScores();
+BooleanType resetScores();
 
 #endif

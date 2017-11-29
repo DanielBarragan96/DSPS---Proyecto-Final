@@ -9,6 +9,8 @@
 #include "MEM24LC256.h"
 #include "Animation.h"
 #include "PIT.h"
+#include "HighScores.h"
+#include "States.h"
 
 TeraTermStatus printTTMainMenu(){
 
@@ -86,7 +88,7 @@ TeraTermStatus printTTDifficulty_2(){
 	return GOOD;
 }
 
-TeraTermStatus printTTRecords(){
+TeraTermStatus printTTRecords_1(){
 	/**The following sentences send strings to PC using the UART_putString function. Also, the string
 	 * is coded with terminal code*/
 	/** VT100 command for text in red and background in cyan*/
@@ -127,11 +129,37 @@ TeraTermStatus printTTRecords(){
 	UART_putString(UART_0,"\033[12;10H");
 	UART_putString(UART_0, "10. \r");
 
+	UART_putString(UART_0,"\033[16;10H");
+	UART_putString(UART_0, "Para resetear los scores en memoria escriba: 1 \r");
+
 	/* VT100 command for positioning the cursor in x and y position*/
 	UART_putString(UART_0,"\033[14;10H");
 
 	return GOOD;
 }
+
+TeraTermStatus printTTRecords_2(){
+	/**The following sentences send strings to PC using the UART_putString function. Also, the string
+	 * is coded with terminal code*/
+	/** VT100 command for text in red and background in cyan*/
+	UART_putString(UART_0,"\033[0;32;10m");
+	/*VT100 command for clearing the screen*/
+	UART_putString(UART_0,"\033[2J");
+	/* VT100 command for positioning the cursor in x and y position*/
+	UART_putString(UART_0,"\033[2;10H");
+	if(RESET_HIGH_SCORES == pop()){//if the last inserted value was '1'
+		resetScores();//reset the scores
+		UART_putString(UART_0, "Los records fueron reseteados.  \r");
+	}
+	else
+		noFunction();// if no reset, return to mainMenu
+
+	/* VT100 command for positioning the cursor in x and y position*/
+	UART_putString(UART_0,"\033[14;10H");
+
+	return GOOD;
+}
+
 BooleanType clearScreenPlay(){/*VT100 command for clearing the screen*/
 	UART_putString(UART_0,"\033[2J");
 	writeUI();

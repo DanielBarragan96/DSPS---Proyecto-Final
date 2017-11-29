@@ -19,14 +19,11 @@ static GPIO_interruptFlags_t GPIO_intrStatusFlag;
 void PORTC_IRQHandler(){
 	GPIO_intrStatusFlag.flagPortC = TRUE;
 	GPIO_clearInterrupt(GPIO_C);
-//	if(FALSE == GPIO_readPIN(GPIO_C, BIT5)) handleTilePress(COLUMN_1);
-//	if(FALSE == GPIO_readPIN(GPIO_C, BIT7)) handleTilePress(COLUMN_2);
-//	if(FALSE == GPIO_readPIN(GPIO_C, BIT0)) handleTilePress(COLUMN_3);
-//	if(FALSE == GPIO_readPIN(GPIO_C, BIT9)) handleTilePress(COLUMN_4);
-	if(GPIO_readPIN(GPIO_C, BIT5)) handleTilePress(COLUMN_1);
-	if(GPIO_readPIN(GPIO_C, BIT7)) handleTilePress(COLUMN_2);
-	if(GPIO_readPIN(GPIO_C, BIT0)) handleTilePress(COLUMN_3);
-	if(GPIO_readPIN(GPIO_C, BIT9)) handleTilePress(COLUMN_4);
+
+	if(FALSE == GPIO_readPIN(GPIO_C, BIT5)) handleTilePress(COLUMN_1);
+	if(FALSE == GPIO_readPIN(GPIO_C, BIT7)) handleTilePress(COLUMN_2);
+	if(FALSE == GPIO_readPIN(GPIO_C, BIT0)) handleTilePress(COLUMN_3);
+	if(FALSE == GPIO_readPIN(GPIO_C, BIT9)) handleTilePress(COLUMN_4);
 }
 
 /**handler para la interruption del puerto a*/
