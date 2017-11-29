@@ -10,6 +10,7 @@
 #include "Animation.h"
 #include "GPIO.h"
 
+//arrrays for handling the inputs
 PadsInput padsInput = {FALSE,FALSE,FALSE,FALSE};
 PadsInput padsReset = {FALSE,FALSE,FALSE,FALSE};
 
@@ -71,7 +72,7 @@ BooleanType updateInput(){
 }
 
 BooleanType handleInput(){
-	GPIO_clearIRQStatus(GPIO_C);
+	GPIO_clearIRQStatus(GPIO_C);//clear PORT_C interruption
 	if(FALSE == padsInput.up) handleTilePress(COLUMN_1);//UP
 	if(FALSE == padsInput.right) handleTilePress(COLUMN_2);//RIGHT
 	if(FALSE == padsInput.left) handleTilePress(COLUMN_3);//LEFT

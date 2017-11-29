@@ -122,7 +122,13 @@ Dificulty getGameDifficulty();
  	 \return TRUE if there were no troubles.
  */
 BooleanType setDifficulty(Dificulty newDifficulty);
-
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This function returnsm the player score value.
+ 	 \return playerScore value.
+ */
 uint8 getPlayerScore();
 
 #endif

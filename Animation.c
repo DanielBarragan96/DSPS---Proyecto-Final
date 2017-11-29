@@ -200,8 +200,9 @@ BooleanType moveTiles(){
 		tilesEmpty = FALSE;
 
 		//TODO change to check in the HighScores
-		updateScores(playerScore);
-		controlMenu();
+		updateScores(playerScore);//save to memory
+		controlMenu();//show score
+		//reset game variables
 		playerScore = 0;
 		songScore = 0;
 		return FALSE;
@@ -292,12 +293,10 @@ BooleanType writeUI(){//write the interface
 	//Print interface for the difficulty
 	/** VT100 command for text in white and background in black*/
 	UART_putString(UART_0,"\033[0;49;37m");
-
 	if(EASY == gameDificulty){
 		UART_putString(UART_0, "\033[27;30H");
 		UART_putChar(UART_0, INTERFACE_TILE);
-	}
-	else if(MEDIUM == gameDificulty){
+	}else if(MEDIUM == gameDificulty){
 		UART_putString(UART_0, "\033[29;30H");
 		UART_putChar(UART_0, INTERFACE_TILE);
 	}else if(HARD == gameDificulty){

@@ -195,6 +195,6 @@ BooleanType screenPlay_2(){
 	UART_putString(UART_0,"\033[2;10H");
 	UART_putString(UART_0, "Puntaje:  \r");
 	UART_putString(UART_0,"\033[3;10H");
-	UART_putChar(UART_0, (48 + getPlayerScore()));
+	UART_putChar(UART_0, (48 + getPlayerScore()));//show score in ASCII
 	return TRUE;
 }
