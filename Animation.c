@@ -281,12 +281,12 @@ BooleanType writeUI(){//write the interface
 	UART_putString(UART_0, "\033[34;15H");
 	UART_putChar(UART_0, INTERFACE_TILE);
 
-	/** VT100 command for text in yellow and background in black*/
+	/** VT100 command for text in blue and background in black*/
 	UART_putString(UART_0,"\033[0;49;34m");
 	UART_putString(UART_0, "\033[34;20H");
 	UART_putChar(UART_0, INTERFACE_TILE);
 
-	/** VT100 command for text in yellow and background in black*/
+	/** VT100 command for text in green and background in black*/
 	UART_putString(UART_0,"\033[0;49;32m");
 	UART_putString(UART_0, "\033[34;25H");
 	UART_putChar(UART_0, INTERFACE_TILE);
