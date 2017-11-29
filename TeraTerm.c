@@ -11,6 +11,7 @@
 #include "PIT.h"
 #include "HighScores.h"
 #include "States.h"
+#include "HighScores.h"
 
 TeraTermStatus printTTMainMenu(){
 
@@ -113,40 +114,51 @@ TeraTermStatus printTTRecords_1(){
 	UART_putString(UART_0,"\033[0;32;10m");
 	/*VT100 command for clearing the screen*/
 	UART_putString(UART_0,"\033[2J");
+	readScores();
 	/* VT100 command for positioning the cursor in x and y position*/
 	UART_putString(UART_0,"\033[1;10H");
 	UART_putString(UART_0, "Los records actuales son:  \r");
-
+	uint8 currentScore;
 	UART_putString(UART_0,"\033[3;10H");
-	UART_putString(UART_0, "1.  \r");
-
+	UART_putString(UART_0, "1. ");
+	currentScore = getScore(0);
+	UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[4;10H");
-	UART_putString(UART_0, "2. \r");
-
+	UART_putString(UART_0, "2. ");
+	currentScore = getScore(1);
+	UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[5;10H");
-	UART_putString(UART_0, "3. \r");
-
+	UART_putString(UART_0, "3. ");
+	currentScore = getScore(2);
+	UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[6;10H");
-	UART_putString(UART_0, "4. \r");
-
+	UART_putString(UART_0, "4. ");
+	currentScore = getScore(3);
+	UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[7;10H");
-	UART_putString(UART_0, "5. \r");
-
+	UART_putString(UART_0, "5. ");
+	currentScore = getScore(4);
+	UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[8;10H");
-	UART_putString(UART_0, "6. \r");
-
+	UART_putString(UART_0, "6. ");
+	currentScore = getScore(5);
+	UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[9;10H");
-	UART_putString(UART_0, "7. \r");
-
+	UART_putString(UART_0, "7. ");
+	currentScore = getScore(6);
+	UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[10;10H");
-	UART_putString(UART_0, "8. \r");
-
+	UART_putString(UART_0, "8. ");
+	currentScore = getScore(7);
+	UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[11;10H");
-	UART_putString(UART_0, "9. \r");
-
+	UART_putString(UART_0, "9. ");
+	currentScore = getScore(8);
+	UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[12;10H");
-	UART_putString(UART_0, "10. \r");
-
+	UART_putString(UART_0, "10. ");
+	currentScore = getScore(9);
+	UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[16;10H");
 	UART_putString(UART_0, "Para resetear los scores en memoria escriba: 1 \r");
 
@@ -181,6 +193,7 @@ TeraTermStatus printTTRecords_2(){
 BooleanType screenPlay_1(){/*VT100 command for clearing the screen*/
 	UART_putString(UART_0,"\033[2J");
 	writeUI();
+	redLEDOn();
 	PIT_delay(PIT_0, SYSTEM_CLOCK, 0.1F);// delay until update screen
 	PIT_delay(PIT_1, SYSTEM_CLOCK, 0.1F);// delay until update screen
 	return TRUE;
@@ -196,5 +209,6 @@ BooleanType screenPlay_2(){
 	UART_putString(UART_0, "Puntaje:  \r");
 	UART_putString(UART_0,"\033[3;10H");
 	UART_putChar(UART_0, (48 + getPlayerScore()));//show score in ASCII
+	turnLEDsOff();
 	return TRUE;
 }

@@ -187,6 +187,13 @@ BooleanType removeTile(uint8 index){
 	}
 	listSize--;//decrease List size
 	songScore++;
+	ufloat32 scorePorcentage = playerScore/songScore;
+	if(GREEN_LED <= scorePorcentage)
+		greenLEDOn();
+	else if(BLUE_LED <= scorePorcentage)
+		blueLEDOn();
+	else
+		redLEDOn();
 	if(0 == listSize) tilesEmpty = TRUE;
 	return TRUE;
 }
@@ -315,3 +322,40 @@ BooleanType setDifficulty(Dificulty newDifficulty){
 	return TRUE;
 }
 uint8 getPlayerScore(){	return playerScore;	}//return playerScore value
+
+
+BooleanType delayLEDs(uint16 delay)
+{
+	volatile uint16 counter;
+
+	for(counter=delay; counter > 0; counter--)
+	{
+	}
+	return TRUE;
+}
+
+BooleanType turnLEDsOff(){
+			GPIOB->PDOR |= 0x00200000;/**Blue led off*/
+			delayLEDs(1000);//65000
+			GPIOB->PDOR |= 0x00400000;/**Read led off*/
+			delayLEDs(1000);
+			GPIOE->PDOR |= 0x4000000;/**Green led off*/
+			delayLEDs(1000);
+			return TRUE;
+}
+
+BooleanType blueLEDOn(){
+		turnLEDsOff();
+	GPIOB->PDOR &= ~(0x00200000);/**Blue led on*/
+	return TRUE;
+}
+BooleanType redLEDOn(){
+		turnLEDsOff();
+	GPIOB->PDOR &= ~(0x00400000);/**Red led on*/
+	return TRUE;
+}
+BooleanType greenLEDOn(){
+		turnLEDsOff();
+	GPIOE->PDOR &= ~(0x4000000);/**Green led on*/
+	return TRUE;
+}
