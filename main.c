@@ -28,7 +28,7 @@ int main(void)
 {
 	initMain();//initialize all configurations for using this practice
 //	writeScores();//reset scores
-	Difficulty_NoteRate(EASY);
+	Difficulty_NoteRate(HARD);
 
 	for(;;) {
 

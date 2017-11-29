@@ -25,7 +25,9 @@
     static ufloat32 med = 0;
     /*Arreglo en el que se almacenarán los valores del ADC*/
     static float VALUES[32000] ={0};
-    static float salida = 0;
+    static uint16 salida = 0;
+    static float notemax = 0;
+	static float notemin = .50;
 
 /*s*/
 static uint32 Fs = 0;
@@ -70,17 +72,17 @@ void Music_Processor()
 			{
 				Note_Type -= VALUES[Index];
 				med = VALUES[Index];
-				if(med > max)
-				{
-					max = med;
-				}
-				if((med < min) && (med > 0))
-				{
-					min = med;
-				}
+//				if(med > max)
+//				{
+//					max = med;
+//				}
+//				if((med < min) && (med > 0))
+//				{
+//					min = med;
+//				}
 				VALUES[Index] = ( float )( ADC_Values() / VALUE_DIVIDER);
 //				TODO agregar if values<0 values = 0
-				salida =( VALUE_DIVIDER*VALUES[Index]);
+				salida =(uint16) ( VALUE_DIVIDER*VALUES[Index]);
 				DAC0_output(salida);
 				Note_Type += VALUES[Index];
 				Index = (Index < (Get_Fs()-1)) ? Index+1 : 0;
@@ -88,7 +90,15 @@ void Music_Processor()
 			}
 				if(Index == (Get_Fs()-1))
 				{
-					Note_Prom = (Note_Type/(Get_Fs()));
+					Note_Prom = ((Note_Type/(Get_Fs()))-.486610)/.005374;
+					if(Note_Prom > notemax)
+					{
+						notemax = Note_Prom;
+					}
+					if((Note_Prom < notemin) && (Note_Prom > 0))
+					{
+						notemin = Note_Prom;
+					}
 					if(Note_Prom < ABAJO)
 					{
 						addTile(COLUMN_3);
@@ -106,62 +116,4 @@ void Music_Processor()
 						addTile(COLUMN_2);
 						Note_Out = 1;
 				}
-//			}
-//    ufloat32 Note_Type = 0;
-//    ufloat32 Note_Prom = 0;
-//    uint8 Note_Out = 0;
-//    ufloat32 max = 0;
-//    ufloat32 min = 2000;
-//    ufloat32 med = 0;
-//    /*Arreglo en el que se almacenarán los valores del ADC*/
-//    float VALUES[32000] ={0};
-//
-//    /*Indice que indicará la posición del arreglo donde se guarda un valor, por lo tanto, uno anterior será el más nuevo*/
-//    uint32 Index = 0;
-//
-//    float salida = 0;
-//
-//	while(1)
-//	{
-//			if(TRUE == get_FrecuencyFlag())
-//			{
-//				Note_Type -= VALUES[Index];
-//				med = VALUES[Index];
-//				if(med > max)
-//				{
-//					max = med;
-//				}
-//				if((med < min) && (med > 0))
-//				{
-//					min = med;
-//				}
-//				VALUES[Index] = ( float )( ADC_Values() / VALUE_DIVIDER);
-////				TODO agregar if values<0 values = 0
-//				salida =( VALUE_DIVIDER*VALUES[Index]);
-//				DAC0_output(salida);
-//				Note_Type += VALUES[Index];
-//				Index = (Index < 31999 ) ? Index+1 : 0;
-//				clear_FrecuencyFlag();
-//			}
-//				if(Index == 31999)
-//				{
-//					Note_Prom = (Note_Type/32000);
-//					if(Note_Prom < ABAJO)
-//					{
-//						addTile(COLUMN_3);
-//						Note_Out = 2;
-//
-//					}else if(Note_Prom < IZQUIERDA && Note_Type > ABAJO)
-//					{
-//						addTile(COLUMN_1);
-//						Note_Out = 0;
-//					}else if(Note_Prom < DERECHA && Note_Type > IZQUIERDA)
-//					{
-//						addTile(COLUMN_4);
-//						Note_Out = 3;
-//					}else
-//						addTile(COLUMN_2);
-//						Note_Out = 1;
-//				}
-//			}
 }

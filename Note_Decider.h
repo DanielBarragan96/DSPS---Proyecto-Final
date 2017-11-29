@@ -18,9 +18,9 @@
 #include "DAC_Drivers.h"
 #include "Animation.h"
 
-#define ABAJO .25
-#define IZQUIERDA .50
-#define DERECHA .75
+#define ABAJO .35
+#define IZQUIERDA .45
+#define DERECHA .57
 #define VALUE_DIVIDER 4096.0
 
 uint32 Get_Fs();
