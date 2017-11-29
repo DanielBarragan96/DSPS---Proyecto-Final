@@ -34,6 +34,8 @@ int main(void)
 			if (PIT_getIntrStutus(PIT_0)) moveTiles();//update the Tiles position in screen
 			if (PIT_getIntrStutus(PIT_1)) controlSong();//update current song tiles
 		}
+
+		if(TRUE == GPIO_getIRQStatus(GPIO_C)) handleInput();//when pad is pressed
 	}
 	return 0;
 }
