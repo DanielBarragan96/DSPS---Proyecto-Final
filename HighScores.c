@@ -36,17 +36,28 @@ uint8 updateScores(uint8 newScore){
 		}
 		actualScores[++index] = newScore;//add new high score
 	}
-	//writeScores();//update scores in memory
+	writeScores();//update scores in memory
 	return (index+1);//Position of the actual score
 }
 
-BooleanType readScores(){//read scores from external memory using I2C
+uint8* readScores(){//read scores from external memory using I2C
 	MEM24LC256_getData(RECORD_MEM_1, SCORES_BYTES, actualScores);
-	return TRUE;
+	return &actualScores[0];
 }
 
 BooleanType resetScores(){//write scores to external memory using I2C
 	MEM24LC256_setData(RECORD_MEM_1, (uint8*) &restartScores[RECORD_MEM_1]);//restart memory scores
 	readScores();//update array scores values
 	return TRUE;
+}
+
+BooleanType writeScores(){//write scores to external memory using I2C
+	MEM24LC256_setData(RECORD_MEM_1, (uint8*) &actualScores[RECORD_MEM_1]);//restart memory scores
+	return TRUE;
+}
+
+uint8 getScore(uint8 index){
+	if(SCORES_ARRAY_SIZE <= index)
+		return FALSE;
+	return actualScores[index];
 }
