@@ -68,7 +68,8 @@ TeraTermStatus printTTRecords_2();
  	 init the game.
  	 \return GOOD if there were no troubles
  */
-BooleanType clearScreenPlay();
+BooleanType screenPlay_1();
 
+BooleanType screenPlay_2();
 
 #endif /* TERATERM_H_ */

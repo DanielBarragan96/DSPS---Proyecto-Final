@@ -89,11 +89,11 @@ const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 };
 
 //This stores each song tile and the delay it needs until the system has to display the next tile
-const Song songs[SONG_SIZE] = {{COLUMN_2,4.5F},{COLUMN_1,3.5F},
-							   {COLUMN_3,3.5F},{COLUMN_2,3.5F},
-							   {COLUMN_1,3.5F},{COLUMN_4,3.5F},
-							   {COLUMN_1,3.5F},{COLUMN_4,3.5F},
-							   {COLUMN_1,4.5F},{COLUMN_3,3.5F}};
+const Song songs[SONG_SIZE] = {{COLUMN_1,4.5F},{COLUMN_1,3.5F},
+							   {COLUMN_1,3.5F},{COLUMN_2,3.5F},
+							   {COLUMN_2,3.5F},{COLUMN_2,3.5F},
+							   {COLUMN_3,3.5F},{COLUMN_3,3.5F},
+							   {COLUMN_4,4.5F},{COLUMN_4,3.5F}};
 
 //array of stored tiles
 static Tiles tiles[TILES_SIZE];
@@ -119,7 +119,6 @@ BooleanType handleTilePress(Column column){
 			uint8 index = tiles[currentTileSongIndex].tileIndex;//get the index of the tile
 			if(gameDificulty <= index){//if the tile is in the limit according to the difficulty
 				playerScore++;//increase player score
-				UART_putString(UART_0, commandsFirstColumn[index]);//position cursor
 				switch(column){//update each column animation for the tiles
 					case COLUMN_1:{
 						UART_putString(UART_0, commandsFirstColumn[index]);
@@ -183,7 +182,8 @@ BooleanType removeTile(uint8 index){
 	if(listSize <= index)
 		return FALSE;//if out of index
 	while(listSize > index){
-		tiles[index] = tiles[1+index++];//move all tiles after the "index"to the left
+		tiles[index] = tiles[1+index];//move all tiles after the "index"to the left
+		index++;
 	}
 	listSize--;//decrease List size
 	songScore++;
@@ -201,11 +201,9 @@ BooleanType moveTiles(){
 
 		//TODO change to check in the HighScores
 		updateScores(playerScore);
+		controlMenu();
 		playerScore = 0;
 		songScore = 0;
-		getSystem()->currentStatus = PRINCIPAL;
-		getSystem()->stateIndex = 0;
-		printTTMainMenu();
 		return FALSE;
 	}
 	uint8 passTiles = 0;
@@ -294,15 +292,18 @@ BooleanType writeUI(){//write the interface
 	//Print interface for the difficulty
 	/** VT100 command for text in white and background in black*/
 	UART_putString(UART_0,"\033[0;49;37m");
-	UART_putString(UART_0, "\033[27;30H");
-	UART_putChar(UART_0, INTERFACE_TILE);
-	UART_putString(UART_0, "\033[29;30H");
-	UART_putChar(UART_0, INTERFACE_TILE);
-	UART_putChar(UART_0, INTERFACE_TILE);
-	UART_putString(UART_0, "\033[31;30H");
-	UART_putChar(UART_0, INTERFACE_TILE);
-	UART_putChar(UART_0, INTERFACE_TILE);
-	UART_putChar(UART_0, INTERFACE_TILE);
+
+	if(EASY == gameDificulty){
+		UART_putString(UART_0, "\033[27;30H");
+		UART_putChar(UART_0, INTERFACE_TILE);
+	}
+	else if(MEDIUM == gameDificulty){
+		UART_putString(UART_0, "\033[29;30H");
+		UART_putChar(UART_0, INTERFACE_TILE);
+	}else if(HARD == gameDificulty){
+		UART_putString(UART_0, "\033[31;30H");
+		UART_putChar(UART_0, INTERFACE_TILE);
+	}
 	return TRUE;
 }
 
@@ -314,3 +315,4 @@ BooleanType setDifficulty(Dificulty newDifficulty){
 	gameDificulty = newDifficulty;//change gameDifficulty
 	return TRUE;
 }
+uint8 getPlayerScore(){	return playerScore;	}//return playerScore value

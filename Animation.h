@@ -123,4 +123,6 @@ Dificulty getGameDifficulty();
  */
 BooleanType setDifficulty(Dificulty newDifficulty);
 
+uint8 getPlayerScore();
+
 #endif

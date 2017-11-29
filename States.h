@@ -55,6 +55,13 @@ typedef struct{
 	uint8	stateIndex;
 }SystemControl;
 
+typedef struct{
+	BooleanType up;
+	BooleanType down;
+	BooleanType right;
+	BooleanType left;
+}PadsInput;
+
 /********************************************************************************************/
 /********************************************************************************************/
 /********************************************************************************************/
@@ -80,6 +87,11 @@ BooleanType controlSystem();
  	 \return TRUE if there were no troubles
  */
 BooleanType controlMenu();
+
+BooleanType updateInput();
+
+BooleanType handleInput();
+
 /********************************************************************************************/
 /********************************************************************************************/
 /********************************************************************************************/
@@ -88,5 +100,7 @@ BooleanType controlMenu();
  	 \return currentSystem direction
  */
 SystemControl* getSystem();
+
+PadsInput* getPadsInput();
 
 #endif /*STATES_H_*/

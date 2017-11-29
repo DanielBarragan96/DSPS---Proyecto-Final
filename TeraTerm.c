@@ -178,10 +178,23 @@ TeraTermStatus printTTRecords_2(){
 	return GOOD;
 }
 
-BooleanType clearScreenPlay(){/*VT100 command for clearing the screen*/
+BooleanType screenPlay_1(){/*VT100 command for clearing the screen*/
 	UART_putString(UART_0,"\033[2J");
 	writeUI();
 	PIT_delay(PIT_0, SYSTEM_CLOCK, 0.1F);// delay until update screen
 	PIT_delay(PIT_1, SYSTEM_CLOCK, 0.1F);// delay until update screen
 	return TRUE;
 };
+
+BooleanType screenPlay_2(){
+	/** VT100 command for text in green and background in black*/
+	UART_putString(UART_0,"\033[0;32;10m");
+	/*VT100 command for clearing the screen*/
+	UART_putString(UART_0,"\033[2J");
+
+	UART_putString(UART_0,"\033[2;10H");
+	UART_putString(UART_0, "Puntaje:  \r");
+	UART_putString(UART_0,"\033[3;10H");
+	UART_putChar(UART_0, (48 + getPlayerScore()));
+	return TRUE;
+}
