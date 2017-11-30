@@ -2,7 +2,7 @@
  * DAC_Drivers.c
  *
  *  Created on: 01/10/2017
- *      Author: Paco
+ *      Author: Alex Ávila & Daniel Barragan
  */
 #include "DataTypeDefinitions.h"
 #include "MK64F12.h"

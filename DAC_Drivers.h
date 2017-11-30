@@ -2,7 +2,7 @@
  * DAC_Drivers.h
  *
  *  Created on: 01/10/2017
- *      Author: Paco
+ *      Author: Alex Ávila && Daniel Barragán
  */
 
 #ifndef DAC_DRIVERS_H_

@@ -21,10 +21,17 @@
 #include "TeraTerm.h"
 #include "Animation.h"
 #include "HighScores.h"
+#include "Note_Decider.h"
+//TODO quitar controlsong maybe
 
 int main(void)
 {
 	initMain();//initialize all configurations for using this practice
+<<<<<<< HEAD
+=======
+//	writeScores();//reset scores
+	Difficulty_NoteRate(HARD);
+>>>>>>> Song_Processing
 
 	for(;;) {
 
@@ -33,6 +40,7 @@ int main(void)
 		if(PLAY == getSystem()->currentStatus){
 			if (PIT_getIntrStutus(PIT_0)) moveTiles();//update the Tiles position in screen
 			if (PIT_getIntrStutus(PIT_1)) controlSong();//update current song tiles
+			Music_Processor();
 		}
 
 		if(TRUE == GPIO_getIRQStatus(GPIO_C)) handleInput();//when pad is pressed
