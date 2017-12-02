@@ -16,6 +16,11 @@
 #define SONG_SIZE 10 // the number of tiles per song
 #define NO_TILE 100 // this value is used to indicate when no tile was founded
 
+//values to handle the LED color
+#define RED_LED 0.2F
+#define BLUE_LED 0.5F
+#define GREEN_LED 0.8F
+
 /*! This data type is used for selecting the difficulty of the game*/
 typedef enum{
 	EASY = ANIMATION_SIZE - 7,
@@ -122,5 +127,23 @@ Dificulty getGameDifficulty();
  	 \return TRUE if there were no troubles.
  */
 BooleanType setDifficulty(Dificulty newDifficulty);
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This function returnsm the player score value.
+ 	 \return playerScore value.
+ */
+uint8 getPlayerScore();
+
+BooleanType delayLEDs(uint16 delay);
+
+BooleanType turnLEDsOff();
+
+BooleanType blueLEDOn();
+
+BooleanType redLEDOn();
+
+BooleanType greenLEDOn();
 
 #endif

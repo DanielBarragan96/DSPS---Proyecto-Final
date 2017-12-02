@@ -8,15 +8,20 @@
 #include "TeraTerm.h"
 #include "PCF8563.h"
 #include "Animation.h"
+#include "GPIO.h"
+
+//arrrays for handling the inputs
+PadsInput padsInput = {FALSE,FALSE,FALSE,FALSE};
+PadsInput padsReset = {FALSE,FALSE,FALSE,FALSE};
 
 //This structure is used for controlling the menus shown in the serial port
 //Each menu has up to 3 sub stages which are changed whenever controlSystem is used
 const StateType FSM_Moore[] =
 	{
 			{&printTTMainMenu,&controlMenu,&noFunction},
-			{&clearScreenPlay,&noFunction,&noFunction},
+			{&screenPlay_1,&screenPlay_2,&noFunction},
 			{&printTTDifficulty_1,&printTTDifficulty_2,&noFunction},
-			{&printTTRecords,&noFunction,&noFunction}
+			{&printTTRecords_1,&printTTRecords_2,noFunction}
 	};
 //This structure handles the current system status
 SystemControl currentSystem = {PRINCIPAL,0};
@@ -58,5 +63,24 @@ BooleanType controlMenu(){
 	return TRUE;
 }
 
+BooleanType updateInput(){
+	padsInput.up = GPIO_readPIN(GPIO_C, BIT5);//UP
+	padsInput.right = GPIO_readPIN(GPIO_C, BIT7);//RIGHT
+	padsInput.left = GPIO_readPIN(GPIO_C, BIT0);//LEFT
+	padsInput.down = GPIO_readPIN(GPIO_C, BIT9);//DOWN
+	return TRUE;
+}
+
+BooleanType handleInput(){
+	GPIO_clearIRQStatus(GPIO_C);//clear PORT_C interruption
+	if(FALSE == padsInput.up) handleTilePress(COLUMN_1);//UP
+	if(FALSE == padsInput.right) handleTilePress(COLUMN_2);//RIGHT
+	if(FALSE == padsInput.left) handleTilePress(COLUMN_3);//LEFT
+	if(FALSE == padsInput.down) handleTilePress(COLUMN_4);//DOWN
+	padsInput = padsReset;//reset input
+	return TRUE;
+}
+
 SystemControl* getSystem(){ return &currentSystem; }//return currentSstem direction
 
+PadsInput* getPadsInput(){	return &padsInput;	}//return the padsInput direction

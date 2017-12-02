@@ -61,24 +61,29 @@ void initMain(){
 	SIM->SCGC5 = SIM_SCGC5_PORTB_MASK;
 
    /**Activating the clock gating of the GPIOs and the PIT*/
+   GPIO_clockGating(GPIO_B);
    GPIO_clockGating(GPIO_C);
+   GPIO_clockGating(GPIO_E);
    PIT_clockGating();
 
    GPIO_pinControlRegisterType pinControlRegisterInputInterruptFallingEdge = GPIO_MUX1|GPIO_PE|INTR_FALLING_EDGE;
-   GPIO_pinControlRegisterType pinControlRegisterInputInterruptRisingEdge = GPIO_MUX1|GPIO_PE|INTR_RISING_EDGE;
+   GPIO_pinControlRegisterType pinControlRegisterMux1 = GPIO_MUX1;
 
-//   /**Configure the characteristics in the GPIOs*/
-//	//Buttons
-//	GPIO_pinControlRegister(GPIO_C,BIT5,&pinControlRegisterInputInterruptFallingEdge);
-//	GPIO_pinControlRegister(GPIO_C,BIT7,&pinControlRegisterInputInterruptFallingEdge);
-//	GPIO_pinControlRegister(GPIO_C,BIT0,&pinControlRegisterInputInterruptFallingEdge);
-//	GPIO_pinControlRegister(GPIO_C,BIT9,&pinControlRegisterInputInterruptFallingEdge);
+   /**Configure the characteristics in the GPIOs*/
+	//Buttons
+	GPIO_pinControlRegister(GPIO_C,BIT5,&pinControlRegisterInputInterruptFallingEdge);
+	GPIO_pinControlRegister(GPIO_C,BIT7,&pinControlRegisterInputInterruptFallingEdge);
+	GPIO_pinControlRegister(GPIO_C,BIT0,&pinControlRegisterInputInterruptFallingEdge);
+	GPIO_pinControlRegister(GPIO_C,BIT9,&pinControlRegisterInputInterruptFallingEdge);
+	//LEDs
+	GPIO_pinControlRegister(GPIO_B,BIT21,&pinControlRegisterMux1);
+	GPIO_pinControlRegister(GPIO_B,BIT22,&pinControlRegisterMux1);
+	GPIO_pinControlRegister(GPIO_E,BIT26,&pinControlRegisterMux1);
 
-
-  	GPIO_pinControlRegister(GPIO_C,BIT5,&pinControlRegisterInputInterruptRisingEdge);
-  	GPIO_pinControlRegister(GPIO_C,BIT7,&pinControlRegisterInputInterruptRisingEdge);
-  	GPIO_pinControlRegister(GPIO_C,BIT0,&pinControlRegisterInputInterruptRisingEdge);
-  	GPIO_pinControlRegister(GPIO_C,BIT9,&pinControlRegisterInputInterruptRisingEdge);
+	/**Assigns a safe value to the output pins*/
+	GPIOB->PDOR |= 0x00200000;/**Blue led off*/
+	GPIOB->PDOR |= 0x00400000;/**Red led off*/
+	GPIOE->PDOR |= 0x04000000;/**Red led off*/
 
 	/**Configure Port Pins as input/output*/
 	//Buttons
@@ -86,6 +91,10 @@ void initMain(){
 	GPIO_dataDirectionPIN(GPIO_C,GPIO_INPUT,BIT7);
 	GPIO_dataDirectionPIN(GPIO_C,GPIO_INPUT,BIT0);
 	GPIO_dataDirectionPIN(GPIO_C,GPIO_INPUT,BIT9);
+	//LEDs
+	GPIO_dataDirectionPIN(GPIO_B,GPIO_OUTPUT,BIT21);
+	GPIO_dataDirectionPIN(GPIO_B,GPIO_OUTPUT,BIT22);
+	GPIO_dataDirectionPIN(GPIO_E,GPIO_OUTPUT,BIT26);
 
 	/**Configures the pin control register of pin16 in PortB as UART RX*/
 	PORTB->PCR[16] = PORT_PCR_MUX(3);
@@ -113,10 +122,6 @@ void initMain(){
 
 	/**Enables interrupts*/
 	EnableInterrupts;
-
-	//configure the UART display
-	UART_putString(UART_0, "\033[0;32;10m");
-	UART_putString(UART_0, "\033[2J");
 
 	printTTMainMenu();
 }

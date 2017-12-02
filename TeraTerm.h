@@ -51,7 +51,15 @@ TeraTermStatus printTTDifficulty_2();
  	 \brief	 It sends the Records menu through the serial port.
  	 \return GOOD if there were no troubles
  */
-TeraTermStatus printTTRecords();
+TeraTermStatus printTTRecords_1();
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 It checks if the user decided to reset the scores.
+ 	 \return GOOD if there were no troubles
+ */
+TeraTermStatus printTTRecords_2();
 /********************************************************************************************/
 /********************************************************************************************/
 /********************************************************************************************/
@@ -60,7 +68,8 @@ TeraTermStatus printTTRecords();
  	 init the game.
  	 \return GOOD if there were no troubles
  */
-BooleanType clearScreenPlay();
+BooleanType screenPlay_1();
 
+BooleanType screenPlay_2();
 
 #endif /* TERATERM_H_ */
