@@ -27,11 +27,8 @@
 int main(void)
 {
 	initMain();//initialize all configurations for using this practice
-<<<<<<< HEAD
-=======
 //	writeScores();//reset scores
-	Difficulty_NoteRate(HARD);
->>>>>>> Song_Processing
+	Difficulty_NoteRate(EASY);
 
 	for(;;) {
 
