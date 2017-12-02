@@ -86,18 +86,21 @@ TeraTermStatus printTTDifficulty_2(){
 		UART_putString(UART_0,"\033[0;49;34m");
 		UART_putString(UART_0, "Facil");
 		setDifficulty(EASY);
+		Difficulty_NoteRate(EASY);
 	}
 	else if(MEDIUM_INPUT == gameDiffuculty){
 		/** VT100 command for text in yellow and background in black*/
 		UART_putString(UART_0,"\033[0;49;33m");
 		UART_putString(UART_0, "Mediana");
 		setDifficulty(MEDIUM);
+		Difficulty_NoteRate(MEDIUM);
 	}
 	else if(HARD_INPUT == gameDiffuculty){
 		/** VT100 command for text in red and background in black*/
 		UART_putString(UART_0,"\033[0;49;31m");
 		UART_putString(UART_0, "Dificil");
 		setDifficulty(HARD);
+		Difficulty_NoteRate(HARD);
 	}
 	else
 		UART_putString(UART_0, "ERROR: la dificultad no ha sido cambiada.");

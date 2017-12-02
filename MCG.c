@@ -8,6 +8,12 @@
 
 #include "mcg.h"
 #include "MK64F12.h"
+#include "DataTypeDefinitions.h"
+#include "init.h"
+
+
+
+
 
 
 /*********************************************************************************************/
@@ -57,6 +63,15 @@ int pll_init(int crystal_val, unsigned char hgo_val, unsigned char erefs_val, si
   short i;
   int ref_freq;
   int pll_freq;
+
+
+
+  SIM->CLKDIV1 = SIM_CLKDIV1_OUTDIV1(0x00) |
+                  SIM_CLKDIV1_OUTDIV2(0x01) |
+                  SIM_CLKDIV1_OUTDIV3(0x04) |
+                  SIM_CLKDIV1_OUTDIV4(0x04); /* Set the system prescalers to safe value */
+
+
 
   // check if in FEI mode
   if (!((((MCG->S & MCG_S_CLKST_MASK) >> MCG_S_CLKST_SHIFT) == 0x0) && // check CLKS mux has selcted FLL output

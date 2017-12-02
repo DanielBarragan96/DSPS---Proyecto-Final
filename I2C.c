@@ -97,7 +97,6 @@ void I2C_wait(void)
 {
 	while(!(I2C0->S & I2C_S_IICIF_MASK))
 	{
-		;
 		delay(1000);
 	}
 }

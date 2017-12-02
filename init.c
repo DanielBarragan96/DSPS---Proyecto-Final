@@ -33,7 +33,8 @@
 #define SLOW_IRC 0 		/* Set the slow IRC */
 #define CLK0_TYPE 0     /* Crystal or canned oscillator clock input */
 #define PLL0_PRDIV 25    /* PLL predivider value */
-#define PLL0_VDIV 30    /* PLL multiplier value*/
+#define PLL0_VDIV 50    /* PLL multiplier value*/
+#define PLL_DIRECT_INIT
 
 void initMain(){
 	//Change the Kinetis clock speed
@@ -102,7 +103,7 @@ void initMain(){
 	PORTB->PCR[17] = PORT_PCR_MUX(3);
 
 	/**Configures UART 0 to transmit/receive at 11520 bauds with a 21 MHz of clock core*/
-	UART_init (UART_0,  60000000, BD_115200);
+	UART_init (UART_0,  mcg_clk_hz, BD_460800);
 	/**Enables the UART 0 interrupt*/
 	UART0_interruptEnable(UART_0);
 

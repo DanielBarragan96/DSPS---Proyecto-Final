@@ -30,7 +30,7 @@ typedef enum {UART_0,UART_1,UART_2,UART_3,UART_4,UART_5}UART_ChannelType;
 /**
  * \brief It defines some common transmission baud rates
  */
-typedef enum {BD_4800=4800,BD_9600=9600,BD_5600=5600, BD_115200=115200}UART_BaudRateType;
+typedef enum {BD_4800=4800,BD_9600=9600,BD_5600=5600, BD_115200=115200, BD_460800=460800}UART_BaudRateType;
 
 /********************************************************************************************/
 /********************************************************************************************/

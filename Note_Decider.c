@@ -114,15 +114,15 @@ void Music_Processor()
 
 			if(N_Index == (Get_Fs()-1))
 			{
-				Note_Prom = ((Note_Type/(Get_Fs()))-.504175)/.001633;//-.486610)/.005374;
-//					if(Note_Prom > notemax)
-//					{
-//						notemax = Note_Prom;
-//					}
-//					if((Note_Prom < notemin) && (Note_Prom > 0))
-//					{
-//						notemin = Note_Prom;
-//					}
+				Note_Prom = ((Note_Type/(Get_Fs()))-.500030)/.001570;//-.486610)/.005374;
+					if(Note_Prom > notemax)
+					{
+						notemax = Note_Prom;
+					}
+					if((Note_Prom < notemin) && (Note_Prom > 0))
+					{
+						notemin = Note_Prom;
+					}
 
 				if(Note_Prom < ABAJO)
 				{
