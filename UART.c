@@ -21,8 +21,8 @@ void UART0_RX_TX_IRQHandler(void){
 			enterFlag = FALSE;
 			push(UART0_MailBox.mailBox);//store the new key pressed in the FIFO
 		}
-		if(PLAY == getSystem()->currentStatus)
-			enterFlag = FALSE;
+		if(PLAY == getSystem()->currentStatus && TWO != getSystem()->stateIndex)
+			enterFlag = FALSE;//if playing don't capture enter
 		return;
 	}
 }

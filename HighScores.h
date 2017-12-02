@@ -27,6 +27,8 @@
 //this defines the size of the score places
 #define SCORES_ARRAY_SIZE 10
 #define SCORES_BYTES 10
+//this value indicates that the user wants to reset the high scores
+#define RESET_HIGH_SCORES '1'
 
 /*! This data type stores the score direction with a pointer*/
 typedef struct{
@@ -47,16 +49,33 @@ uint8 updateScores(uint8 newScore);
 /********************************************************************************************/
 /*!
  	 \brief	 This function reads the high scores stored in the memory.
- 	 \return TRUE if there was no problem reading the values.
+ 	 \return the direction of the first element of the scores
  */
-BooleanType readScores();
+uint8* readScores();
 /********************************************************************************************/
 /********************************************************************************************/
 /********************************************************************************************/
 /*!
- 	 \brief	 This function writes the actualScores to the memory.
+ 	 \brief	 This function resets to zero the actualScores to the memory.
+ 	 \return TRUE if there was no problem storing the values.
+ */
+BooleanType resetScores();
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This function the value of actualScores to the memory.
  	 \return TRUE if there was no problem storing the values.
  */
 BooleanType writeScores();
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This function returns a specific value of the high scores.
+ 	 \param[in]  index of the high score to get.
+ 	 \return FALSE if index out of order, or the value of the highScore at the received index.
+ */
+uint8 getScore(uint8 index);
 
 #endif

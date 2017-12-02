@@ -12,21 +12,15 @@
 #include "MK64F12.h"
 #include "GPIO.h"
 #include "Animation.h"
+#include "States.h"
 
 static GPIO_interruptFlags_t GPIO_intrStatusFlag;
 
 /**handler para la interruption del puerto c*/
 void PORTC_IRQHandler(){
+	updateInput();
 	GPIO_intrStatusFlag.flagPortC = TRUE;
 	GPIO_clearInterrupt(GPIO_C);
-//	if(FALSE == GPIO_readPIN(GPIO_C, BIT5)) handleTilePress(COLUMN_1);
-//	if(FALSE == GPIO_readPIN(GPIO_C, BIT7)) handleTilePress(COLUMN_2);
-//	if(FALSE == GPIO_readPIN(GPIO_C, BIT0)) handleTilePress(COLUMN_3);
-//	if(FALSE == GPIO_readPIN(GPIO_C, BIT9)) handleTilePress(COLUMN_4);
-	if(GPIO_readPIN(GPIO_C, BIT5)) handleTilePress(COLUMN_1);
-	if(GPIO_readPIN(GPIO_C, BIT7)) handleTilePress(COLUMN_2);
-	if(GPIO_readPIN(GPIO_C, BIT0)) handleTilePress(COLUMN_3);
-	if(GPIO_readPIN(GPIO_C, BIT9)) handleTilePress(COLUMN_4);
 }
 
 /**handler para la interruption del puerto a*/
