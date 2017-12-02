@@ -271,7 +271,7 @@ BooleanType moveTiles(){
 	else if(HARD == gameDificulty)//move the cursor for better view
 		UART_putString(UART_0, "\033[31;30H");
 	PIT_clear(PIT_0);
-	PIT_delay(PIT_0, SYSTEM_CLOCK, 1.0F);// delay until update screen
+	PIT_delay(PIT_0, SYSTEM_CLOCK, 0.2F);// delay until update screen
 
 	return TRUE;
 }

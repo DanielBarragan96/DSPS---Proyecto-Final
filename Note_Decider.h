@@ -17,6 +17,9 @@
 #include "MK64F12.h"
 #include "DAC_Drivers.h"
 #include "Animation.h"
+#include "PIT.h"
+#include "TeraTerm.h"
+#include "States.h"
 
 #define ABAJO .35
 #define IZQUIERDA .45
