@@ -25,7 +25,7 @@
 int main(void)
 {
 	initMain();//initialize all configurations for using this practice
-	writeScores();
+
 	for(;;) {
 		if(getEnterFlag() || getSpaceFlag())	controlMenu();//When ENTER was pressed handle the input
 

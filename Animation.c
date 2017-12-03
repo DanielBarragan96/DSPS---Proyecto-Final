@@ -343,8 +343,12 @@ BooleanType restartAnimation(){
 	//reset game variables
 	songEnded = FALSE;//indicate the end of the song
 	songIndex = 0;
-	tilesEmpty = FALSE;
 	playerScore = 0;
 	songScore = 0;
+	listSize = TILES_SIZE;
+	while(!tilesEmpty){
+		removeTile(FIRST_ELEMENT);
+	}
+	tilesEmpty = FALSE;
 	return TRUE;
 }

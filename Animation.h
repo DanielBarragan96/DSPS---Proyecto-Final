@@ -15,6 +15,7 @@
 #define INTERFACE_TILE 219 // the tile shown in the UI
 #define SONG_SIZE 10 // the number of tiles per song
 #define NO_TILE 100 // this value is used to indicate when no tile was founded
+#define FIRST_ELEMENT 0 // first element of an array
 
 //values to handle the LED color
 #define RED_LED 0.2F
