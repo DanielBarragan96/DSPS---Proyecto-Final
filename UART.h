@@ -113,7 +113,7 @@ BooleanType clearEnter();
  	 \brief	 It sends the value of the spaceFlag, which is handled in the UART interruption
  	 \return enterFlag value
  */
-BooleanType clearEnter();
+BooleanType getSpaceFlag();
 /********************************************************************************************/
 /********************************************************************************************/
 /********************************************************************************************/
@@ -121,7 +121,7 @@ BooleanType clearEnter();
  	 \brief	 This function clear the spaceFlag
  	 \return TRUE
  */
-BooleanType getSpaceFlag();
+BooleanType clearSpace();
 
 #endif /* UART_H_ */
 
