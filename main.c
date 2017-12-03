@@ -27,9 +27,9 @@ int main(void)
 	initMain();//initialize all configurations for using this practice
 
 	for(;;) {
-		if(getEnterFlag())	controlMenu();//When ENTER was pressed handle the input
+		if(getEnterFlag() || getSpaceFlag())	controlMenu();//When ENTER was pressed handle the input
 
-		if(PLAY == getSystem()->currentStatus){
+		if(PLAY == getSystem()->currentStatus && PLAY_ANIMATION == getSystem()->stateIndex){
 			if (PIT_getIntrStutus(PIT_0)) moveTiles();//update the Tiles position in screen
 			Music_Processor();//process song
 		}

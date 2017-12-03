@@ -10,6 +10,7 @@
 
 #define FIFO_LENGHT 200//limit size of FIFO
 #define ENTER 13 //ENTER key value
+#define SPACE 32 //ENTER key value
 #define FIRST_ELEMENT 0//The first element of the FIFO is in the index 0
 
 #include "DataTypeDefinitions.h"

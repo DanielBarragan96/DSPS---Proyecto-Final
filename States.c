@@ -58,6 +58,7 @@ BooleanType controlMenu(){
 
 	controlSystem();//update the serial port screen
 	clearEnter();//clear enter flag, which is enabled in the UART interruption
+	clearSpace();//clear enter flag, which is enabled in the UART interruption
 	clearFIFO();//reset the stored FIFO
 	return TRUE;
 }
