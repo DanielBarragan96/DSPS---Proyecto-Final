@@ -185,10 +185,6 @@ BooleanType removeTile(uint8 index){
 
 BooleanType moveTiles(){
 	if(tilesEmpty){//if the tiles are empty
-		PIT_clear(PIT_0);
-		UART_putString(UART_0, "\033[2J");//clear screen
-		updateScores((uint8) (10*playerScore/songScore));//save to memory
-		controlMenu();//show score
 		return FALSE;
 	}
 	uint8 passTiles = 0;

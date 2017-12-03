@@ -12,6 +12,8 @@
 
 //indicates the end index of the array
 #define ARRAY_END 0
+//this indicates the 10 value in ASCII
+#define TEN_ASCII 58
 
 //the next variables represents the memory direction for the highscores
 #define RECORD_MEM_1 0x0

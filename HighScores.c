@@ -11,10 +11,9 @@
 //this array stores the high scoress from the game, it starts and can be used for restarting the memory high scores
 static uint8 actualScores[SCORES_ARRAY_SIZE] = {'0','0','0','0','0','0','0','0','0','0'};
 //this array is used for restarting the memory high scores
-static uint8 restartScores[SCORES_ARRAY_SIZE] = {'0','0','0','0','0','0','0','0','0','0'};
+const uint8 restartScores[SCORES_ARRAY_SIZE] = {'0','0','0','0','0','0','0','0','0','0'};
 
 uint8 updateScores(uint8 newScore){
-	newScore += 48;//change value to ASCII
 	readScores();//update actualScores array
 	uint8 index = SCORES_ARRAY_SIZE -1;//index starting in last position
 	if(actualScores[index] > newScore)//no new high score
