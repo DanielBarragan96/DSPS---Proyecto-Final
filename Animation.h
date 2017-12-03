@@ -164,7 +164,7 @@ BooleanType delayLEDs(uint16 delay);
 /********************************************************************************************/
 /********************************************************************************************/
 /*!
- 	 \brief	 This function turns off all the LEDs of the Kinetis..
+ 	 \brief	 This function turns off all the LEDs of the Kinetis.
  	 \return TRUE if there was no error.
  */
 BooleanType turnLEDsOff();
@@ -172,7 +172,7 @@ BooleanType turnLEDsOff();
 /********************************************************************************************/
 /********************************************************************************************/
 /*!
- 	 \brief	 This function turns on the blue LED of the Kinetis..
+ 	 \brief	 This function turns on the blue LED of the Kinetis.
  	 \return TRUE if there was no error.
  */
 BooleanType blueLEDOn();
@@ -180,7 +180,7 @@ BooleanType blueLEDOn();
 /********************************************************************************************/
 /********************************************************************************************/
 /*!
- 	 \brief	 This function turns on the red LED of the Kinetis..
+ 	 \brief	 This function turns on the red LED of the Kinetis.
  	 \return TRUE if there was no error.
  */
 BooleanType redLEDOn();
@@ -188,7 +188,7 @@ BooleanType redLEDOn();
 /********************************************************************************************/
 /********************************************************************************************/
 /*!
- 	 \brief	 This function turns on the green LED of the Kinetis..
+ 	 \brief	 This function turns on the green LED of the Kinetis.
  	 \return TRUE if there was no error.
  */
 BooleanType greenLEDOn();
@@ -201,5 +201,13 @@ BooleanType greenLEDOn();
  	 \return TRUE if there was no error.
  */
 BooleanType setSongEnd(uint8 song);
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This function reset all the variables of animation.
+ 	 \return TRUE if there was no error.
+ */
+BooleanType restartAnimation();
 
 #endif

@@ -31,7 +31,6 @@ int main(void)
 
 		if(PLAY == getSystem()->currentStatus){
 			if (PIT_getIntrStutus(PIT_0)) moveTiles();//update the Tiles position in screen
-			if (PIT_getIntrStutus(PIT_1)) controlSong();//update current song tiles
 			Music_Processor();//process song
 		}
 

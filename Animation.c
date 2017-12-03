@@ -88,13 +88,6 @@ const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 		"\033[33;25H","\033[34;25H",
 };
 
-//This stores each song tile and the delay it needs until the system has to display the next tile
-const Song songs[SONG_SIZE] = {{COLUMN_1,4.5F},{COLUMN_1,3.5F},
-		   	   	   	   	   	   {COLUMN_1,3.5F},{COLUMN_2,3.5F},
-							   {COLUMN_2,3.5F},{COLUMN_2,3.5F},
-							   {COLUMN_3,3.5F},{COLUMN_3,3.5F},
-							   {COLUMN_4,4.5F},{COLUMN_4,3.5F}};
-
 //array of stored tiles
 static Tiles tiles[TILES_SIZE];
 //size of the tiles List
@@ -158,14 +151,6 @@ uint8 getLowerColumnVal(Column column){
 	return NO_TILE;//there is no tile in the specified column
 }
 
-BooleanType controlSong(){
-	PIT_clear(PIT_1);
-	if(SONG_SIZE <= songIndex) return FALSE;//when song ended
-	addTile(songs[songIndex].column);//add next song tile
-	PIT_delay(PIT_1, SYSTEM_CLOCK, songs[songIndex++].delay);// delay until update screen
-	return TRUE;
-}
-
 BooleanType addTile(Column column){
 	if(TILES_SIZE <= listSize){
 		tilesFull = TRUE;//if the list is full set flags
@@ -202,14 +187,8 @@ BooleanType moveTiles(){
 	if(tilesEmpty){//if the tiles are empty
 		PIT_clear(PIT_0);
 		UART_putString(UART_0, "\033[2J");//clear screen
-		songEnded = TRUE;//indicate the end of the song
-		songIndex = 0;
-		tilesEmpty = FALSE;
-
-		//TODO change to check in the HighScores
 		updateScores((uint8) (10*playerScore/songScore));//save to memory
 		controlMenu();//show score
-		//reset game variables
 		return FALSE;
 	}
 	uint8 passTiles = 0;
@@ -361,5 +340,15 @@ BooleanType greenLEDOn(){
 
 BooleanType setSongEnd(uint8 song){
 	songEnded = song;
+	return TRUE;
+}
+
+BooleanType restartAnimation(){
+	//reset game variables
+	songEnded = FALSE;//indicate the end of the song
+	songIndex = 0;
+	tilesEmpty = FALSE;
+	playerScore = 0;
+	songScore = 0;
 	return TRUE;
 }

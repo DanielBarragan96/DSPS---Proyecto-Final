@@ -195,9 +195,9 @@ TeraTermStatus printTTRecords_2(){
 BooleanType screenPlay_1(){/*VT100 command for clearing the screen*/
 	UART_putString(UART_0,"\033[2J");
 	writeUI();
-	redLEDOn();
+	greenLEDOn();
+	restartAnimation();
 	PIT_delay(PIT_0, SYSTEM_CLOCK, 0.1F);// delay until update screen
-	PIT_delay(PIT_1, SYSTEM_CLOCK, 0.1F);// delay until update screen
 	return TRUE;
 };
 
