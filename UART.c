@@ -7,6 +7,7 @@
 
 UART_MailBoxType UART0_MailBox = {0,0};
 BooleanType enterFlag = FALSE;
+BooleanType spaceFlag = FALSE;
 
 void UART0_RX_TX_IRQHandler(void){
 	while((UART0->S1 & UART_S1_RDRF_MASK)){
@@ -17,12 +18,14 @@ void UART0_RX_TX_IRQHandler(void){
 
 		if(ENTER ==UART0_MailBox.mailBox)//If the pressed key was ENTER
 			enterFlag = TRUE;//This will be handled in the main, for controlling the menus
+		else if(SPACE ==UART0_MailBox.mailBox)//If the pressed key was ENTER
+					spaceFlag = TRUE;//This will be handled in the main, for controlling the menus
 		else{
 			enterFlag = FALSE;
 			push(UART0_MailBox.mailBox);//store the new key pressed in the FIFO
 		}
-		if(PLAY == getSystem()->currentStatus && TWO != getSystem()->stateIndex)
-			enterFlag = FALSE;//if playing don't capture enter
+//		if(PLAY == getSystem()->currentStatus && TWO != getSystem()->stateIndex)
+//			enterFlag = FALSE;//if playing don't capture enter
 		return;
 	}
 }
@@ -263,5 +266,12 @@ BooleanType getEnterFlag() { return enterFlag;}
 
 BooleanType clearEnter() {
 	enterFlag = FALSE;
+	return TRUE;
+}
+
+BooleanType getSpaceFlag() { return spaceFlag;}
+
+BooleanType clearSpace() {
+	spaceFlag = FALSE;
 	return TRUE;
 }

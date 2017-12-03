@@ -31,7 +31,8 @@ typedef enum{//each value is set in ASCII value
 	PRINCIPAL= '0',
 	PLAY,
 	DIFFICULTY,
-	RECORDS
+	RECORDS,
+	PLAY_ANIMATION = 1
 }ProgramStatus;
 /*! This data type is used to control the sub functions of the State Machine*/
 typedef enum{

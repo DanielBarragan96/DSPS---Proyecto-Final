@@ -124,43 +124,53 @@ TeraTermStatus printTTRecords_1(){
 	UART_putString(UART_0,"\033[3;10H");
 	UART_putString(UART_0, "1. ");
 	currentScore = getScore(0);
-	UART_putChar(UART_0, currentScore);
+	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
+	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[4;10H");
 	UART_putString(UART_0, "2. ");
 	currentScore = getScore(1);
-	UART_putChar(UART_0, currentScore);
+	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
+	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[5;10H");
 	UART_putString(UART_0, "3. ");
 	currentScore = getScore(2);
-	UART_putChar(UART_0, currentScore);
+	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
+	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[6;10H");
 	UART_putString(UART_0, "4. ");
 	currentScore = getScore(3);
-	UART_putChar(UART_0, currentScore);
+	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
+	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[7;10H");
 	UART_putString(UART_0, "5. ");
 	currentScore = getScore(4);
-	UART_putChar(UART_0, currentScore);
+	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
+	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[8;10H");
 	UART_putString(UART_0, "6. ");
 	currentScore = getScore(5);
-	UART_putChar(UART_0, currentScore);
+	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
+	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[9;10H");
 	UART_putString(UART_0, "7. ");
 	currentScore = getScore(6);
-	UART_putChar(UART_0, currentScore);
+	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
+	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[10;10H");
 	UART_putString(UART_0, "8. ");
 	currentScore = getScore(7);
-	UART_putChar(UART_0, currentScore);
+	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
+	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[11;10H");
 	UART_putString(UART_0, "9. ");
 	currentScore = getScore(8);
-	UART_putChar(UART_0, currentScore);
+	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
+	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[12;10H");
 	UART_putString(UART_0, "10. ");
 	currentScore = getScore(9);
-	UART_putChar(UART_0, currentScore);
+	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
+	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[16;10H");
 	UART_putString(UART_0, "Para resetear los scores en memoria escriba: 1 \r");
 
@@ -195,13 +205,15 @@ TeraTermStatus printTTRecords_2(){
 BooleanType screenPlay_1(){/*VT100 command for clearing the screen*/
 	UART_putString(UART_0,"\033[2J");
 	writeUI();
-	redLEDOn();
+	greenLEDOn();
+	restartAnimation();
 	PIT_delay(PIT_0, SYSTEM_CLOCK, 0.1F);// delay until update screen
-	PIT_delay(PIT_1, SYSTEM_CLOCK, 0.1F);// delay until update screen
 	return TRUE;
 };
 
 BooleanType screenPlay_2(){
+	PIT_clear(PIT_0);
+
 	/** VT100 command for text in green and background in black*/
 	UART_putString(UART_0,"\033[0;32;10m");
 	/*VT100 command for clearing the screen*/
@@ -210,10 +222,10 @@ BooleanType screenPlay_2(){
 	UART_putString(UART_0,"\033[2;10H");
 	UART_putString(UART_0, "Puntaje:  \r");
 	UART_putString(UART_0,"\033[3;10H");
-	UART_putChar(UART_0, ((uint8) (48 + 10*getPlayerScore()/getSongScore())));//show score in ASCII
-
-	//playerScore = 0;
-	//songScore = 0;
+	uint8 gameScored = (uint8) (48 + 10*getPlayerScore()/getSongScore());//score from 1 to 10 in ascii
+	updateScores(gameScored);
+	if(TEN_ASCII == gameScored) 	UART_putString(UART_0, "10");//show score in ASCII
+	else UART_putChar(UART_0, gameScored);
 
 	turnLEDsOff();
 	return TRUE;
