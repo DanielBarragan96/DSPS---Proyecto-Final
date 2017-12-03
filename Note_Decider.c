@@ -74,9 +74,6 @@ void Music_Processor()
 			}
 			if(N_Index == (Get_Fs()-1)) //if the index equals the sampling limit generates an arrow depending on conditionals
 			{
-				//TODO BARRADEUS basicamente dejas correr la cancion de beethoven de stepmania y antes de que termine le pones pausa al debug, no a la canción y ya sea añades a watch expressions
-				//TODO O revisas directamente el valor de notemax y de notemin, le restas un pequeño valor a notemin ejemplo si fue .499932 a .499920 le restas al maximo ese valor y la diferencia entre ambos
-				//TODO deberia de ser muy pequeña como de .00xxxx y divides y restas como se ve en la siguiente linea, debes agregar apertura de parentesis extra al principio de ((Note_Type/(Get_Fs()))-.499920)/.001307; para que se vea algo asi
 				Note_Prom = (Note_Type/(Get_Fs()));//-.499920)/.001307;
 					if(Note_Prom > notemax)
 					{

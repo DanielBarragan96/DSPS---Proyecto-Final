@@ -21,21 +21,12 @@
 #include "Animation.h"
 #include "HighScores.h"
 #include "Note_Decider.h"
-//TODO quitar controlsong maybe
 
 int main(void)
 {
 	initMain();//initialize all configurations for using this practice
-//	writeScores();//reset scores
-	Difficulty_NoteRate(EASY);
 
 	for(;;) {
-		//TODO ver que podemos hacer sobre el array con el que empieza, ya sea eliminarlo o restar ese numero de flechas del total del score
-		//TODO uno de los sensore no estaba jalando ayer en la noche.
-		//TODO recuerda checar el valor que debemos calibrar en notedecider.c ahi viene como.
-		//TODO ve si puedes hacer algo sobre el bug de que se cancela de la nada la canción en easy, si es necesario en el SetFS de easy reduce un poco ese value para que genere la nota más rapido que en 1 sec, en 32000= 1 flecha por segundo.
-		//TODO el botón que nos llev al menu de scores.
-		//TODO el baudrate en teraterm en serial port es ahora 460800 el penultimo si no, no funciona, cambie un poco la uart por eso
 		if(getEnterFlag())	controlMenu();//When ENTER was pressed handle the input
 
 		if(PLAY == getSystem()->currentStatus){

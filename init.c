@@ -20,6 +20,7 @@
 #include "FlexTimer.h"
 #include "ADC.h"
 #include "DAC_Drivers.h"
+#include "Note_Decider.h"
 
 #define CLK_FREQ_HZ 50000000  /* CLKIN0 frequency */
 #define SLOW_IRC_FREQ 32768	/*This is the approximate value for the slow irc*/
@@ -129,4 +130,6 @@ void initMain(){
 	EnableInterrupts;
 	//show the main menu
 	printTTMainMenu();
+	//set the initial difficulty for the note rate
+	Difficulty_NoteRate(getGameDifficulty());
 }
