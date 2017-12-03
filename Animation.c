@@ -107,6 +107,7 @@ static BooleanType tilesEmpty = FALSE;
 static BooleanType tilesFull = FALSE;
 
 BooleanType handleTilePress(Column column){
+	updateInputAnimation(column);
 	uint8 currentTileSongIndex = getLowerColumnVal(column);
 	if(NO_TILE != currentTileSongIndex){//there was a tile in the column
 			uint8 index = tiles[currentTileSongIndex].tileIndex;//get the index of the tile
@@ -132,7 +133,7 @@ BooleanType handleTilePress(Column column){
 					default:
 						return FALSE;//if column selected out of order (ERROR)
 				}
-				UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
+				UART_putChar(UART_0, CLEAR_CHAR);//Erase last screen value of the Tile
 				removeTile(currentTileSongIndex);//remove the pressed tile
 				return TRUE;//scored
 			}
@@ -187,6 +188,7 @@ BooleanType moveTiles(){
 	if(tilesEmpty){//if the tiles are empty
 		return FALSE;
 	}
+	clearPressed();
 	uint8 passTiles = 0;
 	while(listSize > passTiles){//check all the Tiles of the List
 		if(ANIMATION_SIZE <= (tiles[passTiles].tileIndex + 1)){
@@ -197,7 +199,7 @@ BooleanType moveTiles(){
 			switch(tiles[passTiles].column){//update each column animation for the tiles
 				case COLUMN_1:{
 					UART_putString(UART_0, commandsFirstColumn[tiles[passTiles].tileIndex++]);
-					UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
+					UART_putChar(UART_0, CLEAR_CHAR);//Erase last screen value of the Tile
 					/** VT100 command for text in red and background in black*/
 					UART_putString(UART_0,"\033[0;49;31m");
 					UART_putString(UART_0, commandsFirstColumn[tiles[passTiles++].tileIndex]);
@@ -206,7 +208,7 @@ BooleanType moveTiles(){
 				}
 				case COLUMN_2:{
 					UART_putString(UART_0, commandsSecondColumn[tiles[passTiles].tileIndex++]);
-					UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
+					UART_putChar(UART_0, CLEAR_CHAR);//Erase last screen value of the Tile
 					/** VT100 command for text in yellow and background in black*/
 					UART_putString(UART_0,"\033[0;49;33m");
 					UART_putString(UART_0, commandsSecondColumn[tiles[passTiles++].tileIndex]);
@@ -215,7 +217,7 @@ BooleanType moveTiles(){
 					}
 				case COLUMN_3:{
 					UART_putString(UART_0, commandsThirdColumn[tiles[passTiles].tileIndex++]);
-					UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
+					UART_putChar(UART_0, CLEAR_CHAR);//Erase last screen value of the Tile
 					/** VT100 command for text in blue and background in black*/
 						UART_putString(UART_0,"\033[0;49;34m");
 					UART_putString(UART_0, commandsThirdColumn[tiles[passTiles++].tileIndex]);
@@ -224,7 +226,7 @@ BooleanType moveTiles(){
 					}
 				case COLUMN_4:{
 					UART_putString(UART_0, commandsFourthColumn[tiles[passTiles].tileIndex++]);
-					UART_putChar(UART_0, ' ');//Erase last screen value of the Tile
+					UART_putChar(UART_0, CLEAR_CHAR);//Erase last screen value of the Tile
 					/** VT100 command for text in green and background in black*/
 					UART_putString(UART_0,"\033[0;32;10m");
 					UART_putString(UART_0, commandsFourthColumn[tiles[passTiles++].tileIndex]);
@@ -309,13 +311,13 @@ BooleanType delayLEDs(uint16 delay)
 }
 
 BooleanType turnLEDsOff(){
-			GPIOB->PDOR |= 0x00200000;/**Blue led off*/
-			delayLEDs(1000);//65000
-			GPIOB->PDOR |= 0x00400000;/**Read led off*/
-			delayLEDs(1000);
-			GPIOE->PDOR |= 0x4000000;/**Green led off*/
-			delayLEDs(1000);
-			return TRUE;
+	GPIOB->PDOR |= 0x00200000;/**Blue led off*/
+	delayLEDs(1000);//65000
+	GPIOB->PDOR |= 0x00400000;/**Read led off*/
+	delayLEDs(1000);
+	GPIOE->PDOR |= 0x4000000;/**Green led off*/
+	delayLEDs(1000);
+	return TRUE;
 }
 
 BooleanType blueLEDOn(){
@@ -344,11 +346,71 @@ BooleanType restartAnimation(){
 	songEnded = FALSE;//indicate the end of the song
 	songIndex = 0;
 	playerScore = 0;
-	songScore = 0;
 	listSize = TILES_SIZE;
 	while(!tilesEmpty){
 		removeTile(FIRST_ELEMENT);
 	}
+	listSize = 0;
+	songScore = 0;
 	tilesEmpty = FALSE;
+	return TRUE;
+}
+
+BooleanType updateInputAnimation(Column column){
+	switch(column){//update input animation
+		case COLUMN_1:{
+			/** VT100 command for text in red and background in black*/
+			UART_putString(UART_0,"\033[0;49;31m");
+			UART_putString(UART_0, "\033[36;10H");
+			UART_putChar(UART_0, INTERFACE_TILE);
+			break;
+		}
+		case COLUMN_2:{
+			/** VT100 command for text in yellow and background in black*/
+			UART_putString(UART_0,"\033[0;49;33m");
+			UART_putString(UART_0, "\033[36;15H");
+			UART_putChar(UART_0, INTERFACE_TILE);
+			break;
+			}
+		case COLUMN_3:{
+			/** VT100 command for text in blue and background in black*/
+			UART_putString(UART_0,"\033[0;49;34m");
+			UART_putString(UART_0, "\033[36;20H");
+			UART_putChar(UART_0, INTERFACE_TILE);
+			break;
+			}
+		case COLUMN_4:{
+			/** VT100 command for text in green and background in black*/
+			UART_putString(UART_0,"\033[0;49;32m");
+			UART_putString(UART_0, "\033[36;25H");
+			UART_putChar(UART_0, INTERFACE_TILE);
+			break;
+			}
+		default:
+			return FALSE;//if column selected out of order (ERROR)
+	}
+	return TRUE;
+}
+
+BooleanType clearPressed(){
+	/** VT100 command for text in red and background in black*/
+	UART_putString(UART_0,"\033[0;49;31m");
+	UART_putString(UART_0, "\033[36;10H");
+	UART_putChar(UART_0, CLEAR_CHAR);
+
+	/** VT100 command for text in yellow and background in black*/
+	UART_putString(UART_0,"\033[0;49;33m");
+	UART_putString(UART_0, "\033[36;15H");
+	UART_putChar(UART_0, CLEAR_CHAR);
+
+	/** VT100 command for text in blue and background in black*/
+	UART_putString(UART_0,"\033[0;49;34m");
+	UART_putString(UART_0, "\033[36;20H");
+	UART_putChar(UART_0, CLEAR_CHAR);
+
+	/** VT100 command for text in green and background in black*/
+	UART_putString(UART_0,"\033[0;49;32m");
+	UART_putString(UART_0, "\033[36;25H");
+	UART_putChar(UART_0, CLEAR_CHAR);
 	return TRUE;
 }

@@ -16,6 +16,7 @@
 #define SONG_SIZE 10 // the number of tiles per song
 #define NO_TILE 100 // this value is used to indicate when no tile was founded
 #define FIRST_ELEMENT 0 // first element of an array
+#define CLEAR_CHAR 32
 
 //values to handle the LED color
 #define RED_LED 0.2F
@@ -210,5 +211,21 @@ BooleanType setSongEnd(uint8 song);
  	 \return TRUE if there was no error.
  */
 BooleanType restartAnimation();
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This function updates the input animation.
+ 	 \return TRUE if there was no error.
+ */
+BooleanType updateInputAnimation(Column column);
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This function clears the input animation.
+ 	 \return TRUE if there was no error.
+ */
+BooleanType clearPressed();;
 
 #endif

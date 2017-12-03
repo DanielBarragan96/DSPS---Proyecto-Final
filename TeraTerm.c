@@ -224,7 +224,7 @@ BooleanType screenPlay_2(){
 	UART_putString(UART_0,"\033[3;10H");
 	uint8 gameScored = (uint8) (48 + 10*getPlayerScore()/getSongScore());//score from 1 to 10 in ascii
 	updateScores(gameScored);
-	if(TEN_ASCII == gameScored) 	UART_putString(UART_0, "10");//show score in ASCII
+	if(TEN_ASCII == gameScored) UART_putString(UART_0, "10");//show score in ASCII
 	else UART_putChar(UART_0, gameScored);
 
 	turnLEDsOff();

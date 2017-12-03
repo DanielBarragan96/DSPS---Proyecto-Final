@@ -10,8 +10,8 @@
 #include "GPIO.h"
 
 //arrrays for handling the inputs
-PadsInput padsInput = {FALSE,FALSE,FALSE,FALSE,FALSE};
-PadsInput padsReset = {FALSE,FALSE,FALSE,FALSE,FALSE};
+PadsInput padsInput = {FALSE,FALSE,FALSE,FALSE};
+PadsInput padsReset = {FALSE,FALSE,FALSE,FALSE};
 
 //This structure is used for controlling the menus shown in the serial port
 //Each menu has up to 3 sub stages which are changed whenever controlSystem is used
@@ -68,7 +68,6 @@ BooleanType updateInput(){
 	padsInput.right = GPIO_readPIN(GPIO_C, BIT7);//RIGHT
 	padsInput.left = GPIO_readPIN(GPIO_C, BIT0);//LEFT
 	padsInput.down = GPIO_readPIN(GPIO_C, BIT9);//DOWN
-	padsInput.exit = GPIO_readPIN(GPIO_C, BIT3);//EXIT
 	return TRUE;
 }
 
@@ -78,7 +77,6 @@ BooleanType handleInput(){
 	if(FALSE == padsInput.right) handleTilePress(COLUMN_2);//RIGHT
 	if(FALSE == padsInput.left) handleTilePress(COLUMN_3);//LEFT
 	if(FALSE == padsInput.down) handleTilePress(COLUMN_4);//DOWN
-	//if(padsInput.exit) setSongEnd(TRUE);
 	padsInput = padsReset;//reset input
 	return TRUE;
 }
