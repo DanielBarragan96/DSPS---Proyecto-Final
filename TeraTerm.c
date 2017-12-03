@@ -122,47 +122,47 @@ TeraTermStatus printTTRecords_1(){
 	UART_putString(UART_0, "Los records actuales son:  \r");
 	uint8 currentScore;
 	UART_putString(UART_0,"\033[3;10H");
-	UART_putString(UART_0, "1. ");
+	UART_putString(UART_0, "1.  ");
 	currentScore = getScore(0);
 	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
 	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[4;10H");
-	UART_putString(UART_0, "2. ");
+	UART_putString(UART_0, "2.  ");
 	currentScore = getScore(1);
 	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
 	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[5;10H");
-	UART_putString(UART_0, "3. ");
+	UART_putString(UART_0, "3.  ");
 	currentScore = getScore(2);
 	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
 	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[6;10H");
-	UART_putString(UART_0, "4. ");
+	UART_putString(UART_0, "4.  ");
 	currentScore = getScore(3);
 	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
 	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[7;10H");
-	UART_putString(UART_0, "5. ");
+	UART_putString(UART_0, "5.  ");
 	currentScore = getScore(4);
 	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
 	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[8;10H");
-	UART_putString(UART_0, "6. ");
+	UART_putString(UART_0, "6.  ");
 	currentScore = getScore(5);
 	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
 	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[9;10H");
-	UART_putString(UART_0, "7. ");
+	UART_putString(UART_0, "7.  ");
 	currentScore = getScore(6);
 	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
 	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[10;10H");
-	UART_putString(UART_0, "8. ");
+	UART_putString(UART_0, "8.  ");
 	currentScore = getScore(7);
 	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
 	else UART_putChar(UART_0, currentScore);
 	UART_putString(UART_0,"\033[11;10H");
-	UART_putString(UART_0, "9. ");
+	UART_putString(UART_0, "9.  ");
 	currentScore = getScore(8);
 	if(TEN_ASCII == currentScore) 	UART_putString(UART_0, "10");//show score in ASCII
 	else UART_putChar(UART_0, currentScore);

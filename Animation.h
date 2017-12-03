@@ -25,9 +25,9 @@
 
 /*! This data type is used for selecting the difficulty of the game*/
 typedef enum{
-	EASY = ANIMATION_SIZE - 7,
-	MEDIUM = ANIMATION_SIZE - 5,
-	HARD = ANIMATION_SIZE - 3,
+	EASY = ANIMATION_SIZE - 9,
+	MEDIUM = ANIMATION_SIZE - 7,
+	HARD = ANIMATION_SIZE - 5,
 	EASY_INPUT = '1',
 	MEDIUM_INPUT = '2',
 	HARD_INPUT = '3'
