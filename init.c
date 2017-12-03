@@ -14,7 +14,6 @@
 #include "UART.h"
 #include "I2C.h"
 #include "MCG.h"
-#include "PCF8563.h"
 #include "TeraTerm.h"
 #include "Animation.h"
 #include "MEM24LC256.h"
@@ -128,6 +127,6 @@ void initMain(){
 
 	/**Enables interrupts*/
 	EnableInterrupts;
-
+	//show the main menu
 	printTTMainMenu();
 }

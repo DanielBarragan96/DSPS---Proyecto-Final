@@ -69,7 +69,13 @@ TeraTermStatus printTTRecords_2();
  	 \return GOOD if there were no troubles
  */
 BooleanType screenPlay_1();
-
+/********************************************************************************************/
+/********************************************************************************************/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This function is used showing the end of the song, and the player score.
+ 	 \return GOOD if there were no troubles
+ */
 BooleanType screenPlay_2();
 
 #endif /* TERATERM_H_ */

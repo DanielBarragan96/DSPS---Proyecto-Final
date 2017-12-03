@@ -7,9 +7,6 @@
 #include "DataTypeDefinitions.h"
 #include "MK64F12.h"
 
-
-
-
  void init_DAC0(void){
      SIM->SCGC2 = 0x1000;
      DAC0->C0 = 0xC0;
