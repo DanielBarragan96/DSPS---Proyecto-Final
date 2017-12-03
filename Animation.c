@@ -240,11 +240,11 @@ BooleanType moveTiles(){
 	}
 
 	if(EASY == gameDificulty)//move the cursor for better view
-		UART_putString(UART_0, "\033[27;30H");
+		UART_putString(UART_0, "\033[25;30H");
 	else if(MEDIUM == gameDificulty)//move the cursor for better view
-		UART_putString(UART_0, "\033[29;30H");
+		UART_putString(UART_0, "\033[27;30H");
 	else if(HARD == gameDificulty)//move the cursor for better view
-		UART_putString(UART_0, "\033[31;30H");
+		UART_putString(UART_0, "\033[29;30H");
 	PIT_clear(PIT_0);
 	PIT_delay(PIT_0, SYSTEM_CLOCK, 0.2F);// delay until update screen
 
@@ -276,13 +276,13 @@ BooleanType writeUI(){//write the interface
 	/** VT100 command for text in white and background in black*/
 	UART_putString(UART_0,"\033[0;49;37m");
 	if(EASY == gameDificulty){
-		UART_putString(UART_0, "\033[27;30H");
+		UART_putString(UART_0, "\033[25;30H");
 		UART_putChar(UART_0, INTERFACE_TILE);
 	}else if(MEDIUM == gameDificulty){
-		UART_putString(UART_0, "\033[29;30H");
+		UART_putString(UART_0, "\033[27;30H");
 		UART_putChar(UART_0, INTERFACE_TILE);
 	}else if(HARD == gameDificulty){
-		UART_putString(UART_0, "\033[31;30H");
+		UART_putString(UART_0, "\033[29;30H");
 		UART_putChar(UART_0, INTERFACE_TILE);
 	}
 	return TRUE;
