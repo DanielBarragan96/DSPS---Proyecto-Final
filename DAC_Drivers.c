@@ -14,7 +14,7 @@
      SIM->SCGC2 = 0x1000;
      DAC0->C0 = 0xC0;
  }
- void DAC0_output(uint16 x){
-	 DAC0->DAT[0].DATL = (uint8) (0xFF & x);
-	 DAC0->DAT[0].DATH = (uint8) (x >> 8);
+ void DAC0_output(uint16 val){
+	 DAC0->DAT[0].DATL = (uint8) (0xFF & val);
+	 DAC0->DAT[0].DATH = (uint8) (val >> 8);
  }
