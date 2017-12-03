@@ -211,7 +211,11 @@ BooleanType screenPlay_2(){
 	UART_putString(UART_0,"\033[2;10H");
 	UART_putString(UART_0, "Puntaje:  \r");
 	UART_putString(UART_0,"\033[3;10H");
-	UART_putChar(UART_0, (48 + getPlayerScore()));//show score in ASCII
+	UART_putChar(UART_0, ((uint8) (48 + 10*getPlayerScore()/getSongScore())));//show score in ASCII
+
+	//playerScore = 0;
+	//songScore = 0;
+
 	turnLEDsOff();
 	return TRUE;
 }

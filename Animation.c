@@ -90,7 +90,7 @@ const TeraTermCommand commandsFourthColumn[ANIMATION_SIZE] = {
 
 //This stores each song tile and the delay it needs until the system has to display the next tile
 const Song songs[SONG_SIZE] = {{COLUMN_1,4.5F},{COLUMN_1,3.5F},
-							   {COLUMN_1,3.5F},{COLUMN_2,3.5F},
+		   	   	   	   	   	   {COLUMN_1,3.5F},{COLUMN_2,3.5F},
 							   {COLUMN_2,3.5F},{COLUMN_2,3.5F},
 							   {COLUMN_3,3.5F},{COLUMN_3,3.5F},
 							   {COLUMN_4,4.5F},{COLUMN_4,3.5F}};
@@ -207,11 +207,9 @@ BooleanType moveTiles(){
 		tilesEmpty = FALSE;
 
 		//TODO change to check in the HighScores
-		updateScores(playerScore);//save to memory
+		updateScores((uint8) (10*playerScore/songScore));//save to memory
 		controlMenu();//show score
 		//reset game variables
-		playerScore = 0;
-		songScore = 0;
 		return FALSE;
 	}
 	uint8 passTiles = 0;
@@ -323,6 +321,7 @@ BooleanType setDifficulty(Dificulty newDifficulty){
 }
 uint8 getPlayerScore(){	return playerScore;	}//return playerScore value
 
+uint8 getSongScore(){	return songScore;	}
 
 BooleanType delayLEDs(uint16 delay)
 {
@@ -357,5 +356,10 @@ BooleanType redLEDOn(){
 BooleanType greenLEDOn(){
 		turnLEDsOff();
 	GPIOE->PDOR &= ~(0x4000000);/**Green led on*/
+	return TRUE;
+}
+
+BooleanType setSongEnd(uint8 song){
+	songEnded = song;
 	return TRUE;
 }

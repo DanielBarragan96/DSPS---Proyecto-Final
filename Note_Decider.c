@@ -23,14 +23,17 @@
     static ufloat32 min = 2900;
     static ufloat32 med = 0;
     /*Arreglo en el que se almacenarán los valores del ADC*/
-    static float VALUES[32000] ={0};
+    static ufloat32 VALUES[32000] ={0};
     static uint16 salida = 0;
-    static float notemax = 0;
-	static float notemin = 1;
+    static ufloat32 notemax = 0;
+	static ufloat32 notemin = 1;
 	static uint16 Down_counter = 0;
 	static uint16 Left_counter = 0;
 	static uint16 Right_counter = 0;
 	static uint16 Up_counter = 0;
+	static uint16 Double_Ncounter = 0;
+	static uint16 Passed_Notes = 0;
+
 
 /*s*/
 static uint32 Fs = 0;
@@ -47,18 +50,31 @@ void Set_Fs(uint32 rate)
 	Fs = rate;
 }
 
+uint16 Get_Ncounter()
+{
+	return Double_Ncounter;
+}
+
+void Set_Ncounter(uint16 limit)
+{
+	Double_Ncounter = limit;
+}
+
 void Difficulty_NoteRate(Dificulty difficulty)
 {
 	switch(difficulty)
 	{
 	case EASY:
 		Set_Fs(32000);
+		Set_Ncounter(7);
 		break;
 	case MEDIUM:
 		Set_Fs(16000);
+		Set_Ncounter(12);
 		break;
 	case HARD:
 		Set_Fs(10667);
+		Set_Ncounter(18);
 	}
 }
 
@@ -114,7 +130,7 @@ void Music_Processor()
 
 			if(N_Index == (Get_Fs()-1))
 			{
-				Note_Prom = ((Note_Type/(Get_Fs()))-.500030)/.001570;//-.486610)/.005374;
+				Note_Prom = ((Note_Type/(Get_Fs()))-.499920)/.001307;
 					if(Note_Prom > notemax)
 					{
 						notemax = Note_Prom;
@@ -129,57 +145,89 @@ void Music_Processor()
 					Left_counter = 0;
 					Right_counter = 0;
 					Up_counter = 0;
-					if(Down_counter == 3)
+					if(Passed_Notes == Get_Ncounter())
+					{
+						addTile(COLUMN_4);
+						addTile(COLUMN_3);
+						Passed_Notes = 0;
+						Down_counter = 0;
+					}else if(Down_counter == 3)
 					{
 						addTile(COLUMN_4);
 						Down_counter = 0;
+						Passed_Notes++;
 					}else
 					{
 						addTile(COLUMN_3);
+						Passed_Notes++;
+						Down_counter++;
 					}
-					Down_counter++;
 				}else if(Note_Prom < IZQUIERDA && Note_Type > ABAJO)
 				{
 					Down_counter = 0;
 					Right_counter = 0;
 					Up_counter = 0;
-					if(Left_counter == 3)
+					if(Passed_Notes == Get_Ncounter())
+					{
+						addTile(COLUMN_2);
+						addTile(COLUMN_1);
+						Passed_Notes = 0;
+						Left_counter = 0;
+					}else if(Left_counter == 3)
 					{
 						addTile(COLUMN_2);
 						Left_counter = 0;
+						Passed_Notes++;
 					}else
 					{
 						addTile(COLUMN_1);
+						Passed_Notes++;
+						Left_counter++;
 					}
-					Left_counter++;
 				}else if(Note_Prom < DERECHA && Note_Type > IZQUIERDA)
 				{
 					Down_counter = 0;
 					Left_counter = 0;
 					Up_counter = 0;
-					if(Right_counter == 3)
+					if(Passed_Notes == Get_Ncounter())
+					{
+						addTile(COLUMN_1);
+						addTile(COLUMN_4);
+						Passed_Notes = 0;
+						Right_counter = 0;
+					}else if(Right_counter == 3)
 					{
 						addTile(COLUMN_3);
 						Right_counter = 0;
+						Passed_Notes++;
 					}else
 					{
 						addTile(COLUMN_4);
+						Passed_Notes++;
+						Right_counter++;
 					}
-					Right_counter++;
 				}else
 				{
 					Down_counter = 0;
 					Left_counter = 0;
 					Right_counter = 0;
-					if(Up_counter == 3)
+					if(Passed_Notes == Get_Ncounter())
+					{
+						addTile(COLUMN_3);
+						addTile(COLUMN_2);
+						Passed_Notes = 0;
+						Up_counter = 0;
+					}else if(Up_counter == 3)
 					{
 						addTile(COLUMN_1);
 						Up_counter = 0;
+						Passed_Notes++;
 					}else
 					{
 					addTile(COLUMN_2);
-					}
+					Passed_Notes++;
 					Up_counter++;
+					}
 				}
 			}
 }

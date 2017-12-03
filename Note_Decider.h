@@ -28,6 +28,8 @@
 
 uint32 Get_Fs();
 void Set_Fs(uint32 rate);
+
+void Set_Ncounter(uint16 limit);
 void Difficulty_NoteRate(Dificulty difficulty);
 void Music_Processor();
 

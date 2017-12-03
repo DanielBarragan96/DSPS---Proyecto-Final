@@ -60,6 +60,7 @@ typedef struct{
 	BooleanType down;
 	BooleanType right;
 	BooleanType left;
+	BooleanType exit;
 }PadsInput;
 
 /********************************************************************************************/

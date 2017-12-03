@@ -136,6 +136,8 @@ BooleanType setDifficulty(Dificulty newDifficulty);
  */
 uint8 getPlayerScore();
 
+uint8 getSongScore();
+
 BooleanType delayLEDs(uint16 delay);
 
 BooleanType turnLEDsOff();
@@ -145,5 +147,7 @@ BooleanType blueLEDOn();
 BooleanType redLEDOn();
 
 BooleanType greenLEDOn();
+
+BooleanType setSongEnd(uint8 song);
 
 #endif
